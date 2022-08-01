@@ -58,8 +58,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat)
     {
         x = 20;
     }
-    int Masirha = 0;
-    Masirha = masirhayeMojaver(map);
+    
     if (jahateHarekat == 1)
     {
         if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (10 * sorat)) / 25)] != 2)

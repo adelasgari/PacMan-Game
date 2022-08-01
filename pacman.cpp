@@ -45,7 +45,7 @@ void setmap(int map[22][19])
     map[9][1] = map[9][2] = map[9][3] = map[9][5] = map[9][7] = map[9][8] = map[9][10] = map[9][11] = map[9][13] = map[9][15] = map[9][16] = map[9][17] = 2;
     // door of ghosts palce
     map[9][9] = 5;
-    
+
     map[10][0] = map[10][1] = map[10][2] = map[10][3] = map[10][8] = map[10][9] = map[10][10] = map[10][15] = map[10][16] = map[10][17] = map[10][18] = 3;
     map[10][7] = map[10][11] = 2;
     map[11][1] = map[11][2] = map[11][3] = map[11][5] = map[11][7] = map[11][8] = map[11][9] = map[11][10] = map[11][11] = map[11][13] = map[11][15] = map[11][16] = map[11][17] = 2;
@@ -167,13 +167,15 @@ int main()
     cyanGhostTexture.loadFromFile("cyanghost.png");
     Ghost cyanGhost(200, 435, cyanGhostTexture, 1, 1, 1);
 
+
     Texture orangeGhostTexture;
     orangeGhostTexture.loadFromFile("orangeghost.png");
     Ghost orangeGhost(228, 435, orangeGhostTexture, 1, 1, 1);
 
+
     Texture pinkGhostTexture;
     pinkGhostTexture.loadFromFile("pinkghost.png");
-    Ghost pinkGhost(261, 435, pinkGhostTexture, 1, 1, 1);
+    Ghost pinkGhost(235, 435, pinkGhostTexture, 1, 1, 1);
 
     while (b.isOpen())
     {
@@ -216,7 +218,7 @@ int main()
                 }
                 else if (event.key.code == Keyboard::Key::Down || event.key.code == Keyboard::Key::S)
                 {
-                    if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2&&map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
+                    if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
                     {
                         jahatePacMan = 2;
                         std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 + (5 * sorat)) / 25)) << std::endl;
@@ -246,7 +248,7 @@ int main()
         }
         else if (jahatePacMan == 2)
         {
-            if (map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 || map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
+            if (map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
             {
                 y += (0.12 * sorat);
             }
