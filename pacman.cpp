@@ -31,9 +31,7 @@ void setmap(int map[22][19])
     {
         map[i][18] = 2;
     }
-    map[5][10] = 1;
-    map[7][20] = 1;
-    map[3][17] = 1;
+
     map[1][9] = 2;
     map[2][2] = map[2][3] = map[2][5] = map[2][6] = map[2][7] = map[2][9] = map[2][11] = map[2][12] = map[2][13] = map[2][15] = map[2][16] = 2;
     map[3][2] = map[3][3] = map[3][5] = map[3][6] = map[3][7] = map[3][9] = map[3][11] = map[3][12] = map[3][13] = map[3][15] = map[3][16] = 2;
@@ -59,6 +57,12 @@ void setmap(int map[22][19])
     map[19][2] = map[19][3] = map[19][2] = map[19][4] = map[19][5] = map[19][6] = map[19][7] = map[19][9] = map[19][11] = map[19][12] = map[19][13] = map[19][14] = map[19][15] = map[19][16] = 2;
     // pacman place
     map[12][9] = 3;
+
+    // power points
+    map[14][1] = 1;
+    map[1][1] = 1;
+    map[3][17] = 1;
+    map[20][17]=1;
 }
 void drawmap(RenderWindow &b, int map[22][19])
 {
