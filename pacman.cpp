@@ -105,7 +105,7 @@ void drawmap(RenderWindow &b, int map[22][19])
 int main()
 {
     srand(time(0));
-    RenderWindow b(VideoMode(800, 800), "emam ali");
+    RenderWindow b(VideoMode(500, 800), "emam ali");
 
     Image icon;
     icon.loadFromFile("pacpac.png");
@@ -294,6 +294,33 @@ int main()
                 {
                     b.close();
                 }
+                break;
+                case Event::EventType::MouseButtonPressed:
+                    if (event.mouseButton.button==Mouse::Button::Left&&isGameOver)
+                    {
+                        isGameOver=false;
+                        emtiaz=0;
+                        CountOfLifes=3;
+
+                        redGhost.setStatus(1);
+                        redGhost.setPosition(245, 375);
+ 
+                        cyanGhost.setStatus(1);
+                        cyanGhost.setPosition(200, 435);
+                    
+
+                        pinkGhost.setStatus(1);
+                        pinkGhost.setPosition(235, 435);
+
+                        orangeGhost.setStatus(1);
+                        orangeGhost.setPosition(228, 435);
+                    
+                        s.setPosition(Vector2f(245,487));
+                        setmap(map);
+                        
+                        jahatePacMan=3;
+                    }
+                    
                 break;
             }
         }
