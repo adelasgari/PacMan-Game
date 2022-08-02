@@ -35,7 +35,138 @@ public:
     int getStatus();
     void setPosition(float x, float y);
     FloatRect getGlobalBounds();
+    void returnHome(int map[22][19]);
 };
+void Ghost::returnHome(int map[22][19])
+{
+    float absoluteX = ceil((x - 20) / 25);
+    float absoluteY = ceil((y - 200) / 25);
+    if (absoluteX <= 9 && absoluteY <= 11)
+    {
+        while (absoluteX != 4 && absoluteY != 4)
+        {
+            if (absoluteX < 4)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+                    absoluteX += 0.1 * sorat;
+            }
+            else if (absoluteX > 4)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            x = absoluteX * 25 + 20;
+            if (absoluteY < 4)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+                    absoluteY += 0.1;
+            }
+            else if (absoluteX > 4)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            y = absoluteY * 24.9 + 200;
+            setPosition(x, y);
+        }
+    }
+    else if (x <= 9 && y > 11)
+    {
+        while (absoluteX != 2 && absoluteY != 18)
+        {
+            if (absoluteX < 2)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+                    absoluteX += 0.1 * sorat;
+            }
+            else if (absoluteX > 2)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            x = absoluteX * 25 + 20;
+            if (absoluteY < 18)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+                    absoluteY += 0.1;
+            }
+            else if (absoluteX > 18)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            y = absoluteY * 24.9 + 200;
+            setPosition(x, y);
+        }
+    }
+    else if (x >= 9 && y <= 11)
+    {
+
+        while (absoluteX != 14 && absoluteY != 4)
+        {
+            if (absoluteX < 14)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+                    absoluteX += 0.1 * sorat;
+            }
+            else if (absoluteX > 14)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            x = absoluteX * 25 + 20;
+            if (absoluteY < 4)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+                    absoluteY += 0.1 * sorat;
+            }
+            else if (absoluteX > 4)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            y = absoluteY * 24.9 + 200;
+            setPosition(x, y);
+        }
+    }
+    else if (x >= 9 && y > 11)
+    {
+        while (absoluteX != 2 && absoluteY != 18)
+        {
+            if (absoluteX < 16)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+                    absoluteX += 0.1 * sorat;
+            }
+            else if (absoluteX > 16)
+            {
+                if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            x = absoluteX * 25 + 20;
+            if (absoluteY < 18)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+                    absoluteY += 0.1;
+            }
+            else if (absoluteX > 18)
+            {
+                if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
+
+                    absoluteX -= 0.1 * sorat;
+            }
+            y = absoluteY * 24.9 + 200;
+            setPosition(x, y);
+        }
+    }
+}
 FloatRect Ghost::getGlobalBounds()
 {
     if (status == 3 || status == 4)

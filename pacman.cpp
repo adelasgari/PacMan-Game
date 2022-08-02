@@ -6,6 +6,7 @@
 #include <string>
 #include "ghost.cpp"
 #include <functional>
+#include <fstream>
 using namespace sf;
 void setmap(int map[22][19])
 {
@@ -210,13 +211,24 @@ int main()
 
     Sprite lifes1;
     lifes1.setTexture(life1);
-    lifes1.setPosition(Vector2f(50,750));
-    lifes1.setTextureRect(IntRect(63,0,33,33));
+    lifes1.setPosition(Vector2f(50, 750));
+    lifes1.setTextureRect(IntRect(63, 0, 33, 33));
     Sprite lifes2;
     lifes2.setTexture(life2);
-    lifes2.setPosition(Vector2f(95,750));
-    lifes2.setTextureRect(IntRect(63,0,33,33));
+    lifes2.setPosition(Vector2f(95, 750));
+    lifes2.setTextureRect(IntRect(63, 0, 33, 33));
 
+    ifstream inputfile("HighScore.txt", ios::in);
+    Text highScore;
+    highScore.setFont(font);
+    float highScoreFromFile = 0;
+    inputfile >> highScoreFromFile;
+    highScore.setString("High Score: " + std::to_string((int)highScoreFromFile));
+    highScore.setPosition(Vector2f(230, 160));
+    highScore.setFillColor(Color::Yellow);
+    highScore.setCharacterSize(28);
+    highScore.setOutlineColor(Color::Magenta);
+    highScore.setOutlineThickness(2);
 
     while (b.isOpen())
     {
@@ -409,24 +421,26 @@ int main()
                 if (s.getGlobalBounds().intersects(redGhost.getGlobalBounds()))
                 {
                     redGhost.setStatus(1);
-                    redGhost.setPosition(245, 375);
+                    // redGhost.setPosition(245, 375);
+                    redGhost.returnHome(map);
                 }
                 else if (s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
                 {
                     cyanGhost.setStatus(1);
-                    cyanGhost.setPosition(200, 435);
+                    // cyanGhost.setPosition(200, 435);
+                    cyanGhost.returnHome(map);
                 }
                 else if (s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
                 {
                     pinkGhost.setStatus(1);
-
-                    pinkGhost.setPosition(235, 435);
+                    // pinkGhost.setPosition(235, 435);
+                    pinkGhost.returnHome(map);
                 }
                 else if (s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
                 {
                     orangeGhost.setStatus(1);
-                    
-                    orangeGhost.setPosition(228, 435);
+                    // orangeGhost.setPosition(228, 435);
+                    orangeGhost.returnHome(map);
                 }
             }
             else
@@ -482,14 +496,13 @@ int main()
 
         b.clear(Color::Black);
 
-        
         b.draw(worldsprite);
-                if (CountOfLifes==1)
+        if (CountOfLifes == 1)
         {
             b.draw(lifes1);
         }
-        
-        if (CountOfLifes==2)
+
+        if (CountOfLifes == 2)
         {
             b.draw(lifes1);
 
@@ -503,6 +516,7 @@ int main()
         b.draw(cyanGhost);
         b.draw(orangeGhost);
         b.draw(pinkGhost);
+        b.draw(highScore);
         if (showFood && secondsfromFoodShow != 0)
         {
             secondsfromFoodShow += deltatime.asSeconds();
