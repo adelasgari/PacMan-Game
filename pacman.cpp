@@ -131,8 +131,11 @@ int main()
     icon.loadFromFile("pacpac.png");
     b.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
-    RectangleShape doshman(Vector2f(40, 40));
-    doshman.setPosition(Vector2f(200, 0));
+    Texture logo;
+    logo.loadFromFile("logo.png");
+    RectangleShape banner(Vector2f(500, 150));
+    banner.setPosition(Vector2f(0, 0));
+    banner.setTexture(&logo);
 
     Vector2i andaze(33, 33);
 
@@ -184,7 +187,7 @@ int main()
     matneEmtiaz.setOutlineColor(Color::Magenta);
     matneEmtiaz.setOutlineThickness(2);
 
-    int emtiaz = 0;
+    int emtiaz = 20;
     int emtiazeHarNoghte = 10;
     int emtiazeHarNoghteBozorg = 50;
     int forsatebazi = 2;
@@ -606,7 +609,7 @@ int main()
 
             drawmap(b, map);
             b.draw(matneEmtiaz);
-            b.draw(doshman);
+            b.draw(banner);
             b.draw(s);
             b.draw(redGhost);
             b.draw(cyanGhost);
