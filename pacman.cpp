@@ -34,7 +34,7 @@ void setmap(int map[22][19])
     {
         for (size_t j = 0; j < 19; j++)
         {
-            map[i][j] = 1;
+            map[i][j] = 0;
         }
     }
     for (size_t i = 0; i < 19; i++)
@@ -84,7 +84,7 @@ void setmap(int map[22][19])
     map[14][1] = 1;
     map[1][1] = 1;
     map[3][17] = 1;
-    map[20][17] = 0;
+    map[20][17] = 1;
 }
 void drawmap(RenderWindow &b, int map[22][19])
 {
@@ -256,7 +256,7 @@ int main()
     Text gameover;
     gameover.setFont(font);
     gameover.setString("Game Over!");
-    gameover.setPosition(Vector2f(200, 400));
+    gameover.setPosition(Vector2f(160, 400));
     gameover.setFillColor(Color::Yellow);
     gameover.setCharacterSize(35);
     gameover.setOutlineColor(Color::Magenta);
@@ -265,7 +265,7 @@ int main()
     Text Win;
     Win.setFont(font);
     Win.setString("You Win!");
-    Win.setPosition(Vector2f(200, 400));
+    Win.setPosition(Vector2f(160, 400));
     Win.setFillColor(Color::Yellow);
     Win.setCharacterSize(35);
     Win.setOutlineColor(Color::Magenta);
@@ -273,7 +273,7 @@ int main()
 
     bool isGameOver = false;
     bool isWin = false;
-    
+
     while (b.isOpen())
     {
         Time deltatime = clock.restart();
@@ -326,37 +326,37 @@ int main()
                     b.close();
                 }
                 break;
-            case Event::EventType::MouseButtonPressed:
-                if (event.mouseButton.button == Mouse::Button::Left)
-                {
-                    if (isGameOver || isWin)
-                    {
-                        isGameOver = false;
-                        isWin = false;
-                        emtiaz = 0;
-                        CountOfLifes = 3;
-
-                        redGhost.setStatus(1);
-                        redGhost.setPosition(245, 375);
-
-                        cyanGhost.setStatus(1);
-                        cyanGhost.setPosition(200, 435);
-
-                        pinkGhost.setStatus(1);
-                        pinkGhost.setPosition(235, 435);
-
-                        orangeGhost.setStatus(1);
-                        orangeGhost.setPosition(228, 435);
-
-                        s.setPosition(Vector2f(245, 487));
-                        setmap(map);
-
-                        jahatePacMan = 3;
-                    }
-                }
-
-                break;
             }
+        }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            if (isWin||isGameOver)
+            {
+
+                
+            isGameOver = false;
+            isWin = false;
+            emtiaz = 0;
+            CountOfLifes = 3;
+
+            redGhost.setStatus(1);
+            redGhost.setPosition(245, 375);
+
+            cyanGhost.setStatus(1);
+            cyanGhost.setPosition(200, 435);
+
+            pinkGhost.setStatus(1);
+            pinkGhost.setPosition(235, 435);
+
+            orangeGhost.setStatus(1);
+            orangeGhost.setPosition(228, 435);
+
+            s.setPosition(Vector2f(245, 487));
+            setmap(map);
+
+            jahatePacMan = 3;
+            }
+            
         }
         if (isWin)
         {
