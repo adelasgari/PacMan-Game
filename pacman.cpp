@@ -408,18 +408,24 @@ int main()
                 emtiaz += 200;
                 if (s.getGlobalBounds().intersects(redGhost.getGlobalBounds()))
                 {
+                    redGhost.setStatus(1);
                     redGhost.setPosition(245, 375);
                 }
                 else if (s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
                 {
+                    cyanGhost.setStatus(1);
                     cyanGhost.setPosition(200, 435);
                 }
                 else if (s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
                 {
+                    pinkGhost.setStatus(1);
+
                     pinkGhost.setPosition(235, 435);
                 }
                 else if (s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
                 {
+                    orangeGhost.setStatus(1);
+                    
                     orangeGhost.setPosition(228, 435);
                 }
             }
