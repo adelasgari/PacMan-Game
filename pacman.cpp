@@ -157,9 +157,12 @@ int main()
     Text matneEmtiaz;
     matneEmtiaz.setString("Emtiaz : 0");
     matneEmtiaz.setFont(font);
-    matneEmtiaz.setFillColor(Color::Yellow);
     matneEmtiaz.setPosition(Vector2f(20, 160));
-    matneEmtiaz.scale(Vector2f(0.8, 0.8));
+    // matneEmtiaz.scale(Vector2f(0.8, 0.8));
+    matneEmtiaz.setFillColor(Color::Yellow);
+    matneEmtiaz.setCharacterSize(28);
+    matneEmtiaz.setOutlineColor(Color::Magenta);
+    matneEmtiaz.setOutlineThickness(2);
 
     int emtiaz = 0;
     int emtiazeHarNoghte = 10;
@@ -221,15 +224,25 @@ int main()
     ifstream inputfile("HighScore.txt", ios::in);
     Text highScore;
     highScore.setFont(font);
-    float highScoreFromFile = 0;
+    int highScoreFromFile = 0;
     inputfile >> highScoreFromFile;
-    highScore.setString("High Score: " + std::to_string((int)highScoreFromFile));
+    highScore.setString("High Score: " + std::to_string(highScoreFromFile));
     highScore.setPosition(Vector2f(230, 160));
     highScore.setFillColor(Color::Yellow);
     highScore.setCharacterSize(28);
     highScore.setOutlineColor(Color::Magenta);
     highScore.setOutlineThickness(2);
 
+    Text gameover;
+    gameover.setFont(font);
+    gameover.setString("Game Over!");
+    gameover.setPosition(Vector2f(200, 400));
+    gameover.setFillColor(Color::Yellow);
+    gameover.setCharacterSize(35);
+    gameover.setOutlineColor(Color::Magenta);
+    gameover.setOutlineThickness(2);
+
+    bool isGameOver = false;
     while (b.isOpen())
     {
         Time deltatime = clock.restart();
@@ -284,253 +297,275 @@ int main()
                 break;
             }
         }
-        if (!playerLoss)
+        if (!isGameOver)
         {
 
-            if (jahatePacMan == 1)
+            if (!playerLoss)
             {
-                if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (5 * sorat)) / 25)] != 2)
+
+                if (jahatePacMan == 1)
                 {
-                    x += (0.12 * sorat);
+                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (5 * sorat)) / 25)] != 2)
+                    {
+                        x += (0.12 * sorat);
+                    }
+                }
+                else if (jahatePacMan == 3)
+                {
+                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (5 * sorat)) / 25)] != 2)
+                    {
+                        x -= (0.12 * sorat);
+                    }
+                }
+                else if (jahatePacMan == 2)
+                {
+                    if (map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
+                    {
+                        y += (0.12 * sorat);
+                    }
+                }
+                else if (jahatePacMan == 4)
+                {
+                    if (map[(int)ceil((y - 200 - (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2)
+                    {
+                        y -= (0.12 * sorat);
+                    }
+                }
+                if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 0)
+                {
+                    countOfEats++;
+                    map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
+                    emtiaz += emtiazeHarNoghte;
                 }
             }
-            else if (jahatePacMan == 3)
+            if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1)
             {
-                if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (5 * sorat)) / 25)] != 2)
-                {
-                    x -= (0.12 * sorat);
-                }
-            }
-            else if (jahatePacMan == 2)
-            {
-                if (map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
-                {
-                    y += (0.12 * sorat);
-                }
-            }
-            else if (jahatePacMan == 4)
-            {
-                if (map[(int)ceil((y - 200 - (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2)
-                {
-                    y -= (0.12 * sorat);
-                }
-            }
-            if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 0)
-            {
-                countOfEats++;
+                emtiaz += emtiazeHarNoghteBozorg;
                 map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
-                emtiaz += emtiazeHarNoghte;
-            }
-        }
-        if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1)
-        {
-            emtiaz += emtiazeHarNoghteBozorg;
-            map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
-            isGhostsScare = true;
-            redGhost.ShoroeTars();
-            cyanGhost.ShoroeTars();
-            pinkGhost.ShoroeTars();
-            orangeGhost.ShoroeTars();
-            ghostsScareTime += deltatime.asSeconds();
-        }
-        if (isGhostsScare && ghostsScareTime != 0)
-        {
-            if (ghostsScareTime <= 6.0)
-            {
+                isGhostsScare = true;
+                redGhost.ShoroeTars();
+                cyanGhost.ShoroeTars();
+                pinkGhost.ShoroeTars();
+                orangeGhost.ShoroeTars();
                 ghostsScareTime += deltatime.asSeconds();
-                if (ghostsScareTime <= 6.0 && ghostsScareTime >= 5.0)
+            }
+            if (isGhostsScare && ghostsScareTime != 0)
+            {
+                if (ghostsScareTime <= 6.0)
                 {
-                    timeToChangeColorOfScaredGhost += deltatime.asSeconds();
-                    if (redGhost.getStatus() == 3)
+                    ghostsScareTime += deltatime.asSeconds();
+                    if (ghostsScareTime <= 6.0 && ghostsScareTime >= 5.0)
                     {
-                        if (!(timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0))
+                        timeToChangeColorOfScaredGhost += deltatime.asSeconds();
+                        if (redGhost.getStatus() == 3)
                         {
-                            redGhost.setStatus(4);
-                            cyanGhost.setStatus(4);
-                            pinkGhost.setStatus(4);
-                            orangeGhost.setStatus(4);
+                            if (!(timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0))
+                            {
+                                redGhost.setStatus(4);
+                                cyanGhost.setStatus(4);
+                                pinkGhost.setStatus(4);
+                                orangeGhost.setStatus(4);
+                            }
                         }
-                    }
-                    else if (redGhost.getStatus() == 4)
-                    {
-                        if (!(timeToChangeColorOfScaredGhost <= 0.2 && timeToChangeColorOfScaredGhost >= 0.1))
+                        else if (redGhost.getStatus() == 4)
                         {
-                            redGhost.setStatus(3);
-                            cyanGhost.setStatus(3);
-                            pinkGhost.setStatus(3);
-                            orangeGhost.setStatus(3);
-                            timeToChangeColorOfScaredGhost = 0;
+                            if (!(timeToChangeColorOfScaredGhost <= 0.2 && timeToChangeColorOfScaredGhost >= 0.1))
+                            {
+                                redGhost.setStatus(3);
+                                cyanGhost.setStatus(3);
+                                pinkGhost.setStatus(3);
+                                orangeGhost.setStatus(3);
+                                timeToChangeColorOfScaredGhost = 0;
+                            }
                         }
                     }
                 }
-            }
 
-            else
-            {
-                ghostsScareTime = 0;
-                isGhostsScare = false;
-                timeToChangeColorOfScaredGhost = 0;
-
-                redGhost.setStatus(1);
-                cyanGhost.setStatus(1);
-                pinkGhost.setStatus(1);
-                orangeGhost.setStatus(1);
-            }
-        }
-
-        if ((countOfEats == 70 || countOfEats == 140) && !showFood)
-        {
-            showFood = true;
-            secondsfromFoodShow += 0.1;
-            int randx = rand() % 17 + 1;
-            int randy = rand() % 21 + 1;
-            while (map[randy][randx] == 2)
-            {
-                randx = rand() % 17 + 1;
-                randy = rand() % 21 + 1;
-            }
-            randx = randx * 25 + 20;
-            randy = randy * 24.9 + 200;
-            cout << randx << " ** " << randy << endl;
-            foodsprite.setPosition(Vector2f(randx, randy));
-            if (countOfEats == 70)
-            {
-                foodsprite.setTextureRect(IntRect(0, 0, 16, 17));
-            }
-            else if (countOfEats == 140)
-            {
-                foodsprite.setTextureRect(IntRect(16, 0, 16, 17));
-            }
-        }
-
-        if (s.getGlobalBounds().intersects(foodsprite.getGlobalBounds()) && showFood)
-        {
-            if (countOfEats >= 70 && countOfEats < 140)
-                emtiaz += 100;
-            else
-                emtiaz += 300;
-
-            showFood = false;
-        }
-
-        if (!playerLoss && s.getGlobalBounds().intersects(redGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
-        {
-            if (isGhostsScare)
-            {
-                emtiaz += 200;
-                if (s.getGlobalBounds().intersects(redGhost.getGlobalBounds()))
+                else
                 {
+                    ghostsScareTime = 0;
+                    isGhostsScare = false;
+                    timeToChangeColorOfScaredGhost = 0;
+
                     redGhost.setStatus(1);
-                    // redGhost.setPosition(245, 375);
-                    redGhost.returnHome(map);
-                }
-                else if (s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
-                {
                     cyanGhost.setStatus(1);
-                    // cyanGhost.setPosition(200, 435);
-                    cyanGhost.returnHome(map);
-                }
-                else if (s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
-                {
                     pinkGhost.setStatus(1);
-                    // pinkGhost.setPosition(235, 435);
-                    pinkGhost.returnHome(map);
-                }
-                else if (s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
-                {
                     orangeGhost.setStatus(1);
-                    // orangeGhost.setPosition(228, 435);
-                    orangeGhost.returnHome(map);
                 }
+            }
+
+            if ((countOfEats == 70 || countOfEats == 140) && !showFood)
+            {
+                showFood = true;
+                secondsfromFoodShow += 0.1;
+                int randx = rand() % 17 + 1;
+                int randy = rand() % 21 + 1;
+                while (map[randy][randx] == 2)
+                {
+                    randx = rand() % 17 + 1;
+                    randy = rand() % 21 + 1;
+                }
+                randx = randx * 25 + 20;
+                randy = randy * 24.9 + 200;
+                cout << randx << " ** " << randy << endl;
+                foodsprite.setPosition(Vector2f(randx, randy));
+                if (countOfEats == 70)
+                {
+                    foodsprite.setTextureRect(IntRect(0, 0, 16, 17));
+                }
+                else if (countOfEats == 140)
+                {
+                    foodsprite.setTextureRect(IntRect(16, 0, 16, 17));
+                }
+            }
+
+            if (s.getGlobalBounds().intersects(foodsprite.getGlobalBounds()) && showFood)
+            {
+                if (countOfEats >= 70 && countOfEats < 140)
+                    emtiaz += 100;
+                else
+                    emtiaz += 300;
+
+                showFood = false;
+            }
+
+            if (!playerLoss && s.getGlobalBounds().intersects(redGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
+            {
+                if (isGhostsScare)
+                {
+                    emtiaz += 200;
+                    if (s.getGlobalBounds().intersects(redGhost.getGlobalBounds()))
+                    {
+                        redGhost.setStatus(1);
+                        // redGhost.setPosition(245, 375);
+                        redGhost.returnHome(map);
+                    }
+                    else if (s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
+                    {
+                        cyanGhost.setStatus(1);
+                        // cyanGhost.setPosition(200, 435);
+                        cyanGhost.returnHome(map);
+                    }
+                    else if (s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
+                    {
+                        pinkGhost.setStatus(1);
+                        // pinkGhost.setPosition(235, 435);
+                        pinkGhost.returnHome(map);
+                    }
+                    else if (s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
+                    {
+                        orangeGhost.setStatus(1);
+                        // orangeGhost.setPosition(228, 435);
+                        orangeGhost.returnHome(map);
+                    }
+                }
+                else
+                {
+                    if (CountOfLifes == 0)
+                    {
+                        isGameOver = true;
+                    }
+
+                    CountOfLifes--;
+                    emtiaz -= 20;
+                    playerLoss = true;
+                    lossTime = 0;
+                    lossTime += deltatime.asSeconds();
+                    x = 245;
+                    y = 487;
+                    s.setPosition(Vector2f(x, y));
+
+                    redGhost.setPosition(245, 375);
+                    redGhost.taeineJahat(map, 1);
+                    cyanGhost.setPosition(200, 435);
+                    cyanGhost.taeineJahat(map, 1);
+
+                    orangeGhost.setPosition(228, 435);
+                    orangeGhost.taeineJahat(map, 1);
+                    pinkGhost.setPosition(235, 435);
+                    pinkGhost.taeineJahat(map, 1);
+                }
+            }
+            if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahatePacMan == 3)
+            {
+                x = 20 + 18 * 25;
+            }
+            if ((int)ceil((x - 20) / 25) == 18 && (int)ceil((y - 200) / 24.9) == 10 && jahatePacMan == 1)
+            {
+                x = 20;
+            }
+            if (!playerLoss)
+            {
+                ghostStep = (ghostStep + 1) % 2;
+                redGhost.taeineJahat(map, ghostStep);
+                cyanGhost.taeineJahat(map, ghostStep);
+                orangeGhost.taeineJahat(map, ghostStep);
+                pinkGhost.taeineJahat(map, ghostStep);
+                s.setPosition(Vector2f(x, y));
+            }
+            else if (lossTime <= 2.0 && playerLoss)
+            {
+                lossTime += deltatime.asSeconds();
             }
             else
             {
-                CountOfLifes--;
-                emtiaz -= 20;
-                playerLoss = true;
                 lossTime = 0;
-                lossTime += deltatime.asSeconds();
-                x = 245;
-                y = 487;
-                s.setPosition(Vector2f(x, y));
-
-                redGhost.setPosition(245, 375);
-                redGhost.taeineJahat(map, 1);
-                cyanGhost.setPosition(200, 435);
-                cyanGhost.taeineJahat(map, 1);
-
-                orangeGhost.setPosition(228, 435);
-                orangeGhost.taeineJahat(map, 1);
-                pinkGhost.setPosition(235, 435);
-                pinkGhost.taeineJahat(map, 1);
+                playerLoss = false;
             }
-        }
-        if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahatePacMan == 3)
-        {
-            x = 20 + 18 * 25;
-        }
-        if ((int)ceil((x - 20) / 25) == 18 && (int)ceil((y - 200) / 24.9) == 10 && jahatePacMan == 1)
-        {
-            x = 20;
-        }
-        if (!playerLoss)
-        {
-            ghostStep = (ghostStep + 1) % 2;
-            redGhost.taeineJahat(map, ghostStep);
-            cyanGhost.taeineJahat(map, ghostStep);
-            orangeGhost.taeineJahat(map, ghostStep);
-            pinkGhost.taeineJahat(map, ghostStep);
-            s.setPosition(Vector2f(x, y));
-        }
-        else if (lossTime <= 2.0 && playerLoss)
-        {
-            lossTime += deltatime.asSeconds();
+
+            matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));
+
+            b.clear(Color::Black);
+
+            b.draw(worldsprite);
+            if (CountOfLifes == 1)
+            {
+                b.draw(lifes1);
+            }
+
+            if (CountOfLifes == 2)
+            {
+                b.draw(lifes1);
+
+                b.draw(lifes2);
+            }
+
+            drawmap(b, map);
+            b.draw(matneEmtiaz);
+            b.draw(doshman);
+            b.draw(s);
+            b.draw(redGhost);
+            b.draw(cyanGhost);
+            b.draw(orangeGhost);
+            b.draw(pinkGhost);
+            b.draw(highScore);
+            if (showFood && secondsfromFoodShow != 0)
+            {
+                secondsfromFoodShow += deltatime.asSeconds();
+
+                if (secondsfromFoodShow <= 10.0)
+                {
+                    b.draw(foodsprite);
+                }
+                else
+                {
+                    secondsfromFoodShow = 0;
+                    showFood = false;
+                }
+            }
+            b.display();
         }
         else
         {
-            lossTime = 0;
-            playerLoss = false;
-        }
-
-        matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));
-
-        b.clear(Color::Black);
-
-        b.draw(worldsprite);
-        if (CountOfLifes == 1)
-        {
-            b.draw(lifes1);
-        }
-
-        if (CountOfLifes == 2)
-        {
-            b.draw(lifes1);
-
-            b.draw(lifes2);
-        }
-        drawmap(b, map);
-        b.draw(matneEmtiaz);
-        b.draw(doshman);
-        b.draw(s);
-        b.draw(redGhost);
-        b.draw(cyanGhost);
-        b.draw(orangeGhost);
-        b.draw(pinkGhost);
-        b.draw(highScore);
-        if (showFood && secondsfromFoodShow != 0)
-        {
-            secondsfromFoodShow += deltatime.asSeconds();
-
-            if (secondsfromFoodShow <= 10.0)
+            if (emtiaz>highScoreFromFile)
             {
-                b.draw(foodsprite);
+                ofstream output("HighScore.txt",ios::out);
+                output<<emtiaz;
             }
-            else
-            {
-                secondsfromFoodShow = 0;
-                showFood = false;
-            }
+            
+            b.clear(Color::Black);
+            b.draw(gameover);
+            b.display();
         }
-        b.display();
     }
 }
