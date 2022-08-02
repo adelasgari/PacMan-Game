@@ -274,7 +274,7 @@ int main()
             map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
             emtiaz += emtiazeHarNoghte;
         }
-        if (countOfEats == 1 && !showFood)
+        if ((countOfEats == 70 || countOfEats == 140) && !showFood)
         {
             showFood = true;
             secondsfromFoodShow += 0.1;
@@ -285,24 +285,28 @@ int main()
                 randx = rand() % 17 + 1;
                 randy = rand() % 21 + 1;
             }
+            randx = randx * 25 + 20;
+            randy = randy * 24.9 + 200;
+            cout << randx << " ** " << randy << endl;
+            foodsprite.setPosition(Vector2f(randx, randy));
+            if (countOfEats == 70)
+            {
+                foodsprite.setTextureRect(IntRect(0, 0, 16, 17));
+            }
+            else if (countOfEats == 140)
+            {
+                foodsprite.setTextureRect(IntRect(16, 0, 16, 17));
+            }
         }
 
-        if (showFood && secondsfromFoodShow != 0)
+        if (s.getGlobalBounds().intersects(foodsprite.getGlobalBounds()) && showFood)
         {
-                        cout << randx << " ** " << randy << endl;
-            foodsprite.setPosition(Vector2f(x, y));
-            foodsprite.setTextureRect(IntRect(0, 0, 16, 17));
-            secondsfromFoodShow += deltatime.asSeconds();
-
-            if (secondsfromFoodShow <= 10.0)
-            {
-                b.draw(foodsprite);
-            }
+            if (countOfEats >= 70 && countOfEats < 140)
+                emtiaz += 100;
             else
-            {
-                secondsfromFoodShow = 0;
-                showFood = false;
-            }
+                emtiaz += 300;
+
+            showFood = false;
         }
 
         if (s.getGlobalBounds().intersects(doshman.getGlobalBounds()))
@@ -339,6 +343,20 @@ int main()
         b.draw(cyanGhost);
         b.draw(orangeGhost);
         b.draw(pinkGhost);
+        if (showFood && secondsfromFoodShow != 0)
+        {
+            secondsfromFoodShow += deltatime.asSeconds();
+
+            if (secondsfromFoodShow <= 10.0)
+            {
+                b.draw(foodsprite);
+            }
+            else
+            {
+                secondsfromFoodShow = 0;
+                showFood = false;
+            }
+        }
         b.display();
     }
 }
