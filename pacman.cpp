@@ -283,10 +283,10 @@ int main()
             x = 20;
         }
         ghostStep = (ghostStep + 1) % 2;
-        // redGhost.taeineJahat(map, ghostStep);
+        redGhost.taeineJahat(map, ghostStep);
         cyanGhost.taeineJahat(map, ghostStep);
-        // orangeGhost.taeineJahat(map, ghostStep);
-        // pinkGhost.taeineJahat(map, ghostStep);
+        orangeGhost.taeineJahat(map, ghostStep);
+        pinkGhost.taeineJahat(map, ghostStep);
 
         s.setPosition(Vector2f(x, y));
         matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));
