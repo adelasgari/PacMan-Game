@@ -26,11 +26,31 @@ private:
 public:
     Ghost(float x, float y, const sf::Texture &playerTexture, int jahateHarekat, float sorat, int status);
     ~Ghost();
-    void taeineJahat(int map[22][19], int);
+    void taeineJahat(int map[22][19], int, bool);
     int masirhayeMojaver(int map[22][19]);
     int masireShansi(int map[22][19]);
     virtual void draw(RenderTarget &, RenderStates) const;
+    void ShoroeTars();
 };
+void Ghost::ShoroeTars()
+{
+    if (jahateHarekat == 1)
+    {
+        jahateHarekat = 3;
+    }
+    else if (jahateHarekat == 2)
+    {
+        jahateHarekat = 4;
+    }
+    else if (jahateHarekat == 3)
+    {
+        jahateHarekat = 1;
+    }
+    else if (jahateHarekat == 4)
+    {
+        jahateHarekat = 2;
+    }
+}
 void Ghost::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(mSprite, states);
@@ -48,7 +68,7 @@ Ghost::Ghost(float x, float y, const Texture &playerTexture, int jahateHarekat =
 Ghost::~Ghost()
 {
 }
-void Ghost::taeineJahat(int map[22][19], int gameHarekat)
+void Ghost::taeineJahat(int map[22][19], int gameHarekat, bool isGhostsScare)
 {
     if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahateHarekat == 3)
     {
@@ -58,7 +78,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat)
     {
         x = 20;
     }
-    
+
     if (jahateHarekat == 1)
     {
         if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (10 * sorat)) / 25)] != 2)
@@ -74,8 +94,8 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat)
     }
     else if (jahateHarekat == 2)
     {
-        if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2&&map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
-           {
+        if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
+        {
             y += (0.1 * sorat);
 
             jahateHarekat = masireShansi(map);
@@ -108,52 +128,65 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat)
             jahateHarekat = masireShansi(map);
     }
     mSprite.setPosition(x, y);
-    if (jahateHarekat == 1)
+    if (isGhostsScare)
     {
-        if (gameHarekat == 0)
-        {
-            mSprite.setTextureRect(IntRect(0, 0, 38, 33));
-        }
-        else
-        {
-            mSprite.setTextureRect(IntRect(38, 0, 38, 33));
-        }
+       if (gameHarekat == 0)
+            {
+                mSprite.setTextureRect(IntRect(0, 0, 38, 33));
+            }
+            else
+            {
+                mSprite.setTextureRect(IntRect(38, 0, 38, 33));
+            }
     }
-    else if (jahateHarekat == 2)
+    else
     {
-        if (gameHarekat == 0)
+        if (jahateHarekat == 1)
         {
-            mSprite.setTextureRect(IntRect(76, 0, 38, 33));
+            if (gameHarekat == 0)
+            {
+                mSprite.setTextureRect(IntRect(0, 0, 38, 33));
+            }
+            else
+            {
+                mSprite.setTextureRect(IntRect(38, 0, 38, 33));
+            }
         }
-        else
+        else if (jahateHarekat == 2)
         {
-            mSprite.setTextureRect(IntRect(114, 0, 38, 33));
+            if (gameHarekat == 0)
+            {
+                mSprite.setTextureRect(IntRect(76, 0, 38, 33));
+            }
+            else
+            {
+                mSprite.setTextureRect(IntRect(114, 0, 38, 33));
+            }
         }
-    }
-    else if (jahateHarekat == 3)
-    {
-        if (gameHarekat == 0)
+        else if (jahateHarekat == 3)
         {
-            mSprite.setTextureRect(IntRect(228, 0, 38, 33));
+            if (gameHarekat == 0)
+            {
+                mSprite.setTextureRect(IntRect(228, 0, 38, 33));
+            }
+            else
+            {
+                mSprite.setTextureRect(IntRect(266, 0, 38, 33));
+            }
         }
-        else
+        else if (jahateHarekat == 4)
         {
-            mSprite.setTextureRect(IntRect(266, 0, 38, 33));
-        }
-    }
-    else if (jahateHarekat == 4)
-    {
-        if (gameHarekat == 0)
-        {
-            mSprite.setTextureRect(IntRect(152, 0, 38, 33));
-        }
-        else
-        {
-            mSprite.setTextureRect(IntRect(190, 0, 38, 33));
+            if (gameHarekat == 0)
+            {
+                mSprite.setTextureRect(IntRect(152, 0, 38, 33));
+            }
+            else
+            {
+                mSprite.setTextureRect(IntRect(190, 0, 38, 33));
+            }
         }
     }
     // cout << x << "*************" << y << "-------------" << masirhayeMojaver(map) << "++++++++" << jahateHarekat << endl;
-    
 }
 
 int Ghost::masireShansi(int map[22][19])
@@ -412,7 +445,7 @@ int Ghost::masirhayeMojaver(int map[22][19])
     {
         count += 2;
     }
-    if (map[(int)(ceil((y - 200) / 24.9) + 1)][(int)ceil((x - 20) / 25)] != 2&&map[(int)(ceil((y - 200) / 24.9) + 1)][(int)ceil((x - 20) / 25)] != 5)
+    if (map[(int)(ceil((y - 200) / 24.9) + 1)][(int)ceil((x - 20) / 25)] != 2 && map[(int)(ceil((y - 200) / 24.9) + 1)][(int)ceil((x - 20) / 25)] != 5)
     {
         count += 4;
     }

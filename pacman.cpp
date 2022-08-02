@@ -62,7 +62,7 @@ void setmap(int map[22][19])
     map[14][1] = 1;
     map[1][1] = 1;
     map[3][17] = 1;
-    map[20][17]=1;
+    map[20][17] = 1;
 }
 void drawmap(RenderWindow &b, int map[22][19])
 {
@@ -158,6 +158,7 @@ int main()
 
     int emtiaz = 0;
     int emtiazeHarNoghte = 10;
+    int emtiazeHarNoghteBozorg = 50;
     int forsatebazi = 2;
 
     int jahatePacMan = 3;
@@ -188,6 +189,9 @@ int main()
 
     float secondsfromFoodShow = 0;
     bool showFood = false;
+
+    float ghostsScareTime=0;
+    bool isGhostsScare=false;
 
     while (b.isOpen())
     {
@@ -278,6 +282,18 @@ int main()
             map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
             emtiaz += emtiazeHarNoghte;
         }
+
+        if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1)
+        {
+            emtiaz += emtiazeHarNoghteBozorg;
+            map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
+            isGhostsScare=true;
+            redGhost.ShoroeTars();
+            cyanGhost.ShoroeTars();
+            pinkGhost.ShoroeTars();
+            orangeGhost.ShoroeTars();
+        }
+
         if ((countOfEats == 70 || countOfEats == 140) && !showFood)
         {
             showFood = true;
@@ -330,10 +346,10 @@ int main()
             x = 20;
         }
         ghostStep = (ghostStep + 1) % 2;
-        redGhost.taeineJahat(map, ghostStep);
-        cyanGhost.taeineJahat(map, ghostStep);
-        orangeGhost.taeineJahat(map, ghostStep);
-        pinkGhost.taeineJahat(map, ghostStep);
+        redGhost.taeineJahat(map, ghostStep,isGhostsScare);
+        cyanGhost.taeineJahat(map, ghostStep,isGhostsScare);
+        orangeGhost.taeineJahat(map, ghostStep,isGhostsScare);
+        pinkGhost.taeineJahat(map, ghostStep,isGhostsScare);
 
         s.setPosition(Vector2f(x, y));
         matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));
