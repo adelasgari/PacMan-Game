@@ -126,7 +126,7 @@ int main()
 {
     srand(time(0));
     RenderWindow b(VideoMode(500, 800), "emam ali");
-
+    // b.setFramerateLimit(60);
     Image icon;
     icon.loadFromFile("pacpac.png");
     b.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -413,10 +413,18 @@ int main()
                     emtiaz += emtiazeHarNoghte;
 
                     isWin = winCheck(map);
+                    // if (deltatime.asSeconds() != 0.0)
+                    // {
+                    //     sleep(microseconds(1 / deltatime.asMicroseconds()));
+                    // }
                 }
             }
             if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1)
             {
+                if (deltatime.asSeconds() != 0.0)
+                {
+                    sleep(microseconds(3 / deltatime.asMicroseconds()));
+                }
                 emtiaz += emtiazeHarNoghteBozorg;
                 map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
                 isGhostsScare = true;
