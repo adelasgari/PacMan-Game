@@ -10,23 +10,24 @@
 using namespace sf;
 bool winCheck(int map[22][19])
 {
-    int tedadeNoghteBaghimande = 0;
+    
     for (size_t i = 0; i < 22; i++)
     {
         for (size_t j = 0; j < 19; j++)
         {
             if (map[i][j] == 0)
             {
-                tedadeNoghteBaghimande++;
+                return false;
             }
         }
     }
-    if (tedadeNoghteBaghimande == 0)
-    {
-        return true;
-    }
-    else
-        return false;
+    return true;
+    // if (tedadeNoghteBaghimande == 0)
+    // {
+    //     return true;
+    // }
+    // else
+    //     return false;
 }
 void setmap(int map[22][19])
 {
@@ -277,6 +278,14 @@ int main()
     bool isGameOver = false;
     bool isWin = false;
 
+    Text myName;
+        myName.setFont(font);
+    myName.setString("Adel Asgari 40012358027");
+    myName.setPosition(Vector2f(150, 750));
+    myName.setFillColor(Color::White);
+    myName.setCharacterSize(30);
+    myName.setOutlineColor(Color::Magenta);
+    myName.setOutlineThickness(2);
     while (b.isOpen())
     {
         Time deltatime = clock.restart();
@@ -624,6 +633,7 @@ int main()
             b.draw(orangeGhost);
             b.draw(pinkGhost);
             b.draw(highScore);
+            b.draw(myName);
             if (showFood && secondsfromFoodShow != 0)
             {
                 secondsfromFoodShow += deltatime.asSeconds();
