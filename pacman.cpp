@@ -167,15 +167,23 @@ int main()
     cyanGhostTexture.loadFromFile("cyanghost.png");
     Ghost cyanGhost(200, 435, cyanGhostTexture, 1, 1, 1);
 
-
     Texture orangeGhostTexture;
     orangeGhostTexture.loadFromFile("orangeghost.png");
     Ghost orangeGhost(228, 435, orangeGhostTexture, 1, 1, 1);
 
-
     Texture pinkGhostTexture;
     pinkGhostTexture.loadFromFile("pinkghost.png");
     Ghost pinkGhost(235, 435, pinkGhostTexture, 1, 1, 1);
+
+    Texture food;
+    food.loadFromFile("foods.png");
+    Sprite foodsprite;
+    foodsprite.setTexture(food);
+
+    int countOfEats = 0;
+
+    float secondsfromFoodShow = 0;
+    bool showFood = false;
 
     while (b.isOpen())
     {
@@ -262,8 +270,39 @@ int main()
         }
         if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 0)
         {
+            countOfEats++;
             map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
             emtiaz += emtiazeHarNoghte;
+        }
+        if (countOfEats == 1 && !showFood)
+        {
+            showFood = true;
+            secondsfromFoodShow += 0.1;
+            int randx = rand() % 17 + 1;
+            int randy = rand() % 21 + 1;
+            while (map[randy][randx] == 2)
+            {
+                randx = rand() % 17 + 1;
+                randy = rand() % 21 + 1;
+            }
+        }
+
+        if (showFood && secondsfromFoodShow != 0)
+        {
+                        cout << randx << " ** " << randy << endl;
+            foodsprite.setPosition(Vector2f(x, y));
+            foodsprite.setTextureRect(IntRect(0, 0, 16, 17));
+            secondsfromFoodShow += deltatime.asSeconds();
+
+            if (secondsfromFoodShow <= 10.0)
+            {
+                b.draw(foodsprite);
+            }
+            else
+            {
+                secondsfromFoodShow = 0;
+                showFood = false;
+            }
         }
 
         if (s.getGlobalBounds().intersects(doshman.getGlobalBounds()))

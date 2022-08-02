@@ -152,8 +152,8 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat)
             mSprite.setTextureRect(IntRect(190, 0, 38, 33));
         }
     }
-    cout << x << "*************" << y << "-------------" << masirhayeMojaver(map) << "++++++++" << jahateHarekat << endl;
-    ;
+    // cout << x << "*************" << y << "-------------" << masirhayeMojaver(map) << "++++++++" << jahateHarekat << endl;
+    
 }
 
 int Ghost::masireShansi(int map[22][19])
