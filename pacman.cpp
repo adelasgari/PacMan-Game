@@ -5,6 +5,7 @@
 #include <cmath>
 #include <string>
 #include "ghost.cpp"
+#include <functional>
 using namespace sf;
 void setmap(int map[22][19])
 {
@@ -99,6 +100,14 @@ void drawmap(RenderWindow &b, int map[22][19])
         x = 20;
     }
 }
+void lose(Ghost &redGhost, Ghost &cyanGhost, Ghost &pinkGhost, Ghost &orangeGhost, int &CountOfLifes)
+{
+    CountOfLifes--;
+    redGhost.setPosition(245, 375);
+    cyanGhost.setPosition(200, 435);
+    orangeGhost.setPosition(228, 435);
+    pinkGhost.setPosition(235, 435);
+}
 int main()
 {
     srand(time(0));
@@ -119,6 +128,8 @@ int main()
     Sprite s(t);
     s.setTextureRect(IntRect(0, 0, andaze.x, andaze.y));
     s.setScale(Vector2f(0.8, 0.8));
+
+    int CountOfLifes = 2;
 
     float x = 245;
     float y = 487;
@@ -163,22 +174,24 @@ int main()
 
     int jahatePacMan = 3;
 
+    Texture scareGhostTexture;
+    scareGhostTexture.loadFromFile("scaredghost.png");
     Texture redGhostTexture;
     redGhostTexture.loadFromFile("redghost.png");
-    Ghost redGhost(245, 375, redGhostTexture, 1, 1, 1);
+    Ghost redGhost(245, 375, redGhostTexture, scareGhostTexture, 1, 1, 1);
     int ghostStep = 1;
 
     Texture cyanGhostTexture;
     cyanGhostTexture.loadFromFile("cyanghost.png");
-    Ghost cyanGhost(200, 435, cyanGhostTexture, 1, 1, 1);
+    Ghost cyanGhost(200, 435, cyanGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture orangeGhostTexture;
     orangeGhostTexture.loadFromFile("orangeghost.png");
-    Ghost orangeGhost(228, 435, orangeGhostTexture, 1, 1, 1);
+    Ghost orangeGhost(228, 435, orangeGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture pinkGhostTexture;
     pinkGhostTexture.loadFromFile("pinkghost.png");
-    Ghost pinkGhost(235, 435, pinkGhostTexture, 1, 1, 1);
+    Ghost pinkGhost(235, 435, pinkGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture food;
     food.loadFromFile("foods.png");
@@ -190,9 +203,12 @@ int main()
     float secondsfromFoodShow = 0;
     bool showFood = false;
 
-    float ghostsScareTime=0;
-    bool isGhostsScare=false;
+    float ghostsScareTime = 0;
+    bool isGhostsScare = false;
+    float timeToChangeColorOfScaredGhost = 0;
 
+    float lossTime = 0;
+    bool playerLoss = false;
     while (b.isOpen())
     {
         Time deltatime = clock.restart();
@@ -287,11 +303,56 @@ int main()
         {
             emtiaz += emtiazeHarNoghteBozorg;
             map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
-            isGhostsScare=true;
+            isGhostsScare = true;
             redGhost.ShoroeTars();
             cyanGhost.ShoroeTars();
             pinkGhost.ShoroeTars();
             orangeGhost.ShoroeTars();
+            ghostsScareTime += deltatime.asSeconds();
+        }
+        if (isGhostsScare && ghostsScareTime != 0)
+        {
+            if (ghostsScareTime <= 6.0)
+            {
+                ghostsScareTime += deltatime.asSeconds();
+                if (ghostsScareTime <= 6.0 && ghostsScareTime >= 5.0)
+                {
+                    timeToChangeColorOfScaredGhost += deltatime.asSeconds();
+                    if (redGhost.getStatus() == 3)
+                    {
+                        if (!(timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0))
+                        {
+                            redGhost.setStatus(4);
+                            cyanGhost.setStatus(4);
+                            pinkGhost.setStatus(4);
+                            orangeGhost.setStatus(4);
+                        }
+                    }
+                    else if (redGhost.getStatus() == 4)
+                    {
+                        if (!(timeToChangeColorOfScaredGhost <= 0.2 && timeToChangeColorOfScaredGhost >= 0.1))
+                        {
+                            redGhost.setStatus(3);
+                            cyanGhost.setStatus(3);
+                            pinkGhost.setStatus(3);
+                            orangeGhost.setStatus(3);
+                            timeToChangeColorOfScaredGhost = 0;
+                        }
+                    }
+                }
+            }
+
+            else
+            {
+                ghostsScareTime = 0;
+                isGhostsScare = false;
+                timeToChangeColorOfScaredGhost = 0;
+
+                redGhost.setStatus(1);
+                cyanGhost.setStatus(1);
+                pinkGhost.setStatus(1);
+                orangeGhost.setStatus(1);
+            }
         }
 
         if ((countOfEats == 70 || countOfEats == 140) && !showFood)
@@ -329,12 +390,21 @@ int main()
             showFood = false;
         }
 
-        if (s.getGlobalBounds().intersects(doshman.getGlobalBounds()))
+        if (s.getGlobalBounds().intersects(redGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
         {
-            sorat -= 0.1;
-            if (sorat <= 0.5)
+            if (isGhostsScare)
             {
-                sorat = 0.5;
+                emtiaz += 200;
+                redGhost.setPosition(245, 375);
+            }
+            else
+            {
+                lose(redGhost, cyanGhost, pinkGhost, orangeGhost, CountOfLifes);
+                emtiaz -= 20;
+                playerLoss = true;
+                lossTime += deltatime.asSeconds();
+                x = 245;
+                y = 487;
             }
         }
         if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahatePacMan == 3)
@@ -345,11 +415,23 @@ int main()
         {
             x = 20;
         }
-        ghostStep = (ghostStep + 1) % 2;
-        redGhost.taeineJahat(map, ghostStep,isGhostsScare);
-        cyanGhost.taeineJahat(map, ghostStep,isGhostsScare);
-        orangeGhost.taeineJahat(map, ghostStep,isGhostsScare);
-        pinkGhost.taeineJahat(map, ghostStep,isGhostsScare);
+        if (!playerLoss)
+        {
+            ghostStep = (ghostStep + 1) % 2;
+            redGhost.taeineJahat(map, ghostStep);
+            cyanGhost.taeineJahat(map, ghostStep);
+            orangeGhost.taeineJahat(map, ghostStep);
+            pinkGhost.taeineJahat(map, ghostStep);
+        }
+        else if (lossTime <= 2.0 && playerLoss)
+        {
+            lossTime += deltatime.asSeconds();
+        }
+        else
+        {
+            lossTime = 0;
+            playerLoss = false;
+        }
 
         s.setPosition(Vector2f(x, y));
         matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));

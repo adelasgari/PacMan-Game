@@ -16,7 +16,7 @@ private:
     float y;
 
     sf::Sprite mSprite;
-
+    sf::Sprite sSprite;
     float sorat;
 
     int jahateHarekat;
@@ -24,16 +24,42 @@ private:
     int status;
 
 public:
-    Ghost(float x, float y, const sf::Texture &playerTexture, int jahateHarekat, float sorat, int status);
+    Ghost(float x, float y, const sf::Texture &playerTexture, const sf::Texture &ScaredTexture, int jahateHarekat, float sorat, int status);
     ~Ghost();
-    void taeineJahat(int map[22][19], int, bool);
+    void taeineJahat(int map[22][19], int);
     int masirhayeMojaver(int map[22][19]);
     int masireShansi(int map[22][19]);
     virtual void draw(RenderTarget &, RenderStates) const;
     void ShoroeTars();
+    void setStatus(int status);
+    int getStatus();
+    void setPosition(float x, float y);
+    FloatRect getGlobalBounds();
 };
+FloatRect Ghost::getGlobalBounds()
+{
+    if (status == 3 || status == 4)
+        return sSprite.getGlobalBounds();
+    else
+        return mSprite.getGlobalBounds();
+}
+void Ghost::setPosition(float x, float y)
+{
+    this->x = x;
+    this->y = y;
+}
+
+int Ghost::getStatus()
+{
+    return status;
+}
+void Ghost::setStatus(int status)
+{
+    this->status = status;
+}
 void Ghost::ShoroeTars()
 {
+    status = 3;
     if (jahateHarekat == 1)
     {
         jahateHarekat = 3;
@@ -53,9 +79,14 @@ void Ghost::ShoroeTars()
 }
 void Ghost::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    target.draw(mSprite, states);
+    if (status == 3 || status == 4)
+    {
+        target.draw(sSprite, states);
+    }
+    else
+        target.draw(mSprite, states);
 }
-Ghost::Ghost(float x, float y, const Texture &playerTexture, int jahateHarekat = 1, float sorat = 1, int status = 1)
+Ghost::Ghost(float x, float y, const Texture &playerTexture, const sf::Texture &ScaredTexture, int jahateHarekat = 1, float sorat = 1, int status = 1)
 {
     this->x = x;
     this->y = y;
@@ -63,12 +94,13 @@ Ghost::Ghost(float x, float y, const Texture &playerTexture, int jahateHarekat =
     this->sorat = sorat;
     this->status = status;
     mSprite.setTexture(playerTexture);
+    sSprite.setTexture(ScaredTexture);
 }
 
 Ghost::~Ghost()
 {
 }
-void Ghost::taeineJahat(int map[22][19], int gameHarekat, bool isGhostsScare)
+void Ghost::taeineJahat(int map[22][19], int gameHarekat)
 {
     if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahateHarekat == 3)
     {
@@ -127,20 +159,35 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, bool isGhostsScare)
         else
             jahateHarekat = masireShansi(map);
     }
-    mSprite.setPosition(x, y);
-    if (isGhostsScare)
+    if (status == 3)
     {
-       if (gameHarekat == 0)
-            {
-                mSprite.setTextureRect(IntRect(0, 0, 38, 33));
-            }
-            else
-            {
-                mSprite.setTextureRect(IntRect(38, 0, 38, 33));
-            }
+        sSprite.setPosition(x, y);
+
+        if (gameHarekat == 0)
+        {
+            sSprite.setTextureRect(IntRect(0, 0, 38, 33));
+        }
+        else
+        {
+            sSprite.setTextureRect(IntRect(38, 0, 38, 33));
+        }
+    }
+    else if (status == 4)
+    {
+        sSprite.setPosition(x, y);
+
+        if (gameHarekat == 0)
+        {
+            sSprite.setTextureRect(IntRect(76, 0, 38, 33));
+        }
+        else
+        {
+            sSprite.setTextureRect(IntRect(114, 0, 38, 33));
+        }
     }
     else
     {
+        mSprite.setPosition(x, y);
         if (jahateHarekat == 1)
         {
             if (gameHarekat == 0)
