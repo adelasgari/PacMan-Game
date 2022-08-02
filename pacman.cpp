@@ -122,7 +122,7 @@ int main()
     s.setTextureRect(IntRect(0, 0, andaze.x, andaze.y));
     s.setScale(Vector2f(0.8, 0.8));
 
-    int CountOfLifes = 2;
+    int CountOfLifes = 3;
 
     float x = 245;
     float y = 487;
@@ -210,12 +210,12 @@ int main()
 
     Sprite lifes1;
     lifes1.setTexture(life1);
-    lifes1.setPosition(Vector2f(50,650));
-    lifes1.setTextureRect(IntRect(66,0,33,33));
+    lifes1.setPosition(Vector2f(50,750));
+    lifes1.setTextureRect(IntRect(63,0,33,33));
     Sprite lifes2;
     lifes2.setTexture(life2);
-    lifes2.setPosition(Vector2f(90,650));
-    lifes2.setTextureRect(IntRect(66,0,33,33));
+    lifes2.setPosition(Vector2f(95,750));
+    lifes2.setTextureRect(IntRect(63,0,33,33));
 
 
     while (b.isOpen())
@@ -238,7 +238,7 @@ int main()
                     if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (10 * sorat)) / 25)] != 2)
                     {
                         jahatePacMan = 1;
-                        std::cout << "X: " + std::to_string((int)ceil((x - 20 + (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
+                        // std::cout << "X: " + std::to_string((int)ceil((x - 20 + (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
                     }
                 }
                 else if (event.key.code == Keyboard::Key::Left || event.key.code == Keyboard::Key::A)
@@ -246,7 +246,7 @@ int main()
                     if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (10 * sorat)) / 25)] != 2)
                     {
                         jahatePacMan = 3;
-                        std::cout << "X: " + std::to_string((int)ceil((x - 20 - (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
+                        // std::cout << "X: " + std::to_string((int)ceil((x - 20 - (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
                     }
                 }
                 else if (event.key.code == Keyboard::Key::Up || event.key.code == Keyboard::Key::W)
@@ -254,7 +254,7 @@ int main()
                     if (map[(int)ceil((y - 200 - (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2)
                     {
                         jahatePacMan = 4;
-                        std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 - (5 * sorat)) / 25)) << std::endl;
+                        // std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 - (5 * sorat)) / 25)) << std::endl;
                     }
                 }
                 else if (event.key.code == Keyboard::Key::Down || event.key.code == Keyboard::Key::S)
@@ -262,7 +262,7 @@ int main()
                     if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
                     {
                         jahatePacMan = 2;
-                        std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 + (5 * sorat)) / 25)) << std::endl;
+                        // std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 + (5 * sorat)) / 25)) << std::endl;
                     }
                 }
                 else if (event.key.code == Keyboard::Key::Escape)
@@ -475,7 +475,10 @@ int main()
         matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));
 
         b.clear(Color::Black);
-        if (CountOfLifes==1)
+
+        
+        b.draw(worldsprite);
+                if (CountOfLifes==1)
         {
             b.draw(lifes1);
         }
@@ -486,8 +489,6 @@ int main()
 
             b.draw(lifes2);
         }
-        
-        b.draw(worldsprite);
         drawmap(b, map);
         b.draw(matneEmtiaz);
         b.draw(doshman);
