@@ -330,33 +330,38 @@ int main()
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            if (isWin||isGameOver)
+            if (isWin || isGameOver)
             {
+                if (emtiaz > highScoreFromFile)
+                {
+                    ofstream output("HighScore.txt", ios::out);
+                    output << emtiaz;
+                    output.close();
+                    highScore.setString("High Score: " + std::to_string(emtiaz));
+                }
 
-                
-            isGameOver = false;
-            isWin = false;
-            emtiaz = 0;
-            CountOfLifes = 3;
+                isGameOver = false;
+                isWin = false;
+                emtiaz = 0;
+                CountOfLifes = 3;
 
-            redGhost.setStatus(1);
-            redGhost.setPosition(245, 375);
+                redGhost.setStatus(1);
+                redGhost.setPosition(245, 375);
 
-            cyanGhost.setStatus(1);
-            cyanGhost.setPosition(200, 435);
+                cyanGhost.setStatus(1);
+                cyanGhost.setPosition(200, 435);
 
-            pinkGhost.setStatus(1);
-            pinkGhost.setPosition(235, 435);
+                pinkGhost.setStatus(1);
+                pinkGhost.setPosition(235, 435);
 
-            orangeGhost.setStatus(1);
-            orangeGhost.setPosition(228, 435);
+                orangeGhost.setStatus(1);
+                orangeGhost.setPosition(228, 435);
 
-            s.setPosition(Vector2f(245, 487));
-            setmap(map);
+                s.setPosition(Vector2f(245, 487));
+                setmap(map);
 
-            jahatePacMan = 3;
+                jahatePacMan = 3;
             }
-            
         }
         if (isWin)
         {
@@ -626,12 +631,6 @@ int main()
         }
         else if (isGameOver)
         {
-            if (emtiaz > highScoreFromFile)
-            {
-                ofstream output("HighScore.txt", ios::out);
-                output << emtiaz;
-                output.close();
-            }
 
             b.clear(Color::Black);
             b.draw(gameover);
