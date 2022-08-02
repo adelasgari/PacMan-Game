@@ -75,7 +75,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat)
     else if (jahateHarekat == 2)
     {
         if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2&&map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
-        {
+           {
             y += (0.1 * sorat);
 
             jahateHarekat = masireShansi(map);
