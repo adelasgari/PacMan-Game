@@ -194,7 +194,7 @@ void Ghost::ShoroeTars()
     status = 3;
     if (jahateHarekat == 1)
     {
-        jahateHarekat = 3;
+          jahateHarekat = 3;
     }
     else if (jahateHarekat == 2)
     {

@@ -97,7 +97,7 @@ void drawmap(RenderWindow &b, int map[22][19])
         {
             if (map[i][j] == 0)
             {
-                CircleShape c(1);
+                CircleShape c(2);
                 c.setFillColor(Color::Yellow);
                 c.setPosition(Vector2f(x, y));
                 b.draw(c);
