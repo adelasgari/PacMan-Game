@@ -126,11 +126,11 @@ void drawmap(RenderWindow &b, int map[22][19])
 int main()
 {
     srand(time(0));
-    RenderWindow b(VideoMode(500, 800), "emam ali");
-    // b.setFramerateLimit(60);
+    RenderWindow MainWindow(VideoMode(500, 800), "Adel Asgari 40012358027");
+    // MainWindow.setFramerateLimit(60);
     Image icon;
     icon.loadFromFile("pacpac.png");
-    b.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    MainWindow.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     Texture logo;
     logo.loadFromFile("logo.png");
@@ -286,7 +286,7 @@ int main()
     myName.setCharacterSize(30);
     myName.setOutlineColor(Color::Magenta);
     myName.setOutlineThickness(2);
-    while (b.isOpen())
+    while (MainWindow.isOpen())
     {
         Time deltatime = clock.restart();
         zamaneseparishode += deltatime;
@@ -295,7 +295,7 @@ int main()
         int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame;
         s.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));
 
-        while (b.pollEvent(event))
+        while (MainWindow.pollEvent(event))
         {
             switch (event.type)
             {
@@ -335,7 +335,7 @@ int main()
                 }
                 else if (event.key.code == Keyboard::Key::Escape)
                 {
-                    b.close();
+                    MainWindow.close();
                 }
                 break;
             }
@@ -377,9 +377,9 @@ int main()
         }
         if (isWin)
         {
-            b.clear(Color::Black);
-            b.draw(Win);
-            b.display();
+            MainWindow.clear(Color::Black);
+            MainWindow.draw(Win);
+            MainWindow.display();
         }
         else if (!isGameOver)
         {
@@ -609,38 +609,38 @@ int main()
 
             matneEmtiaz.setString("Emtiaz :" + std::to_string(emtiaz));
 
-            b.clear(Color::Black);
+            MainWindow.clear(Color::Black);
 
-            b.draw(worldsprite);
+            MainWindow.draw(worldsprite);
             if (CountOfLifes == 1)
             {
-                b.draw(lifes1);
+                MainWindow.draw(lifes1);
             }
 
             if (CountOfLifes == 2)
             {
-                b.draw(lifes1);
+                MainWindow.draw(lifes1);
 
-                b.draw(lifes2);
+                MainWindow.draw(lifes2);
             }
 
-            drawmap(b, map);
-            b.draw(matneEmtiaz);
-            b.draw(banner);
-            b.draw(s);
-            b.draw(redGhost);
-            b.draw(cyanGhost);
-            b.draw(orangeGhost);
-            b.draw(pinkGhost);
-            b.draw(highScore);
-            b.draw(myName);
+            drawmap(MainWindow, map);
+            MainWindow.draw(matneEmtiaz);
+            MainWindow.draw(banner);
+            MainWindow.draw(s);
+            MainWindow.draw(redGhost);
+            MainWindow.draw(cyanGhost);
+            MainWindow.draw(orangeGhost);
+            MainWindow.draw(pinkGhost);
+            MainWindow.draw(highScore);
+            MainWindow.draw(myName);
             if (showFood && secondsfromFoodShow != 0)
             {
                 secondsfromFoodShow += deltatime.asSeconds();
 
                 if (secondsfromFoodShow <= 10.0)
                 {
-                    b.draw(foodsprite);
+                    MainWindow.draw(foodsprite);
                 }
                 else
                 {
@@ -648,14 +648,14 @@ int main()
                     showFood = false;
                 }
             }
-            b.display();
+            MainWindow.display();
         }
         else if (isGameOver)
         {
 
-            b.clear(Color::Black);
-            b.draw(gameover);
-            b.display();
+            MainWindow.clear(Color::Black);
+            MainWindow.draw(gameover);
+            MainWindow.display();
         }
     }
 }
