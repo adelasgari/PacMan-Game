@@ -200,7 +200,7 @@ int main()
     Texture redGhostTexture;
     redGhostTexture.loadFromFile("Images/redghost.png");
     Ghost redGhost(245, 375, redGhostTexture, scareGhostTexture, 1, 1, 1);
-    
+
     int ghostStep = 1;
 
     Texture cyanGhostTexture;
@@ -245,10 +245,11 @@ int main()
     lifes2.setTextureRect(IntRect(63, 0, 33, 33));
 
     ifstream inputfile("Data/HighScore.txt", ios::in);
-    Text highScore;
-    highScore.setFont(font);
     int highScoreFromFile = 0;
     inputfile >> highScoreFromFile;
+
+    Text highScore;
+    highScore.setFont(font);
     highScore.setString("High Score: " + std::to_string(highScoreFromFile));
     highScore.setPosition(Vector2f(230, 160));
     highScore.setFillColor(Color::Yellow);
@@ -285,6 +286,7 @@ int main()
     myName.setCharacterSize(30);
     myName.setOutlineColor(Color::Magenta);
     myName.setOutlineThickness(2);
+
     while (MainWindow.isOpen())
     {
         Time deltatime = clock.restart();
@@ -337,6 +339,10 @@ int main()
                     MainWindow.close();
                 }
                 break;
+
+            case Event::EventType::Closed:
+                MainWindow.close();
+                break;
             }
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -382,10 +388,8 @@ int main()
         }
         else if (!isGameOver)
         {
-
             if (!playerLoss)
             {
-
                 if (jahatePacMan == 1)
                 {
                     if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (5 * sorat)) / 25)] != 2)
@@ -492,7 +496,7 @@ int main()
                 showFood = true;
                 secondsfromFoodShow += 0.1;
                 int randx = rand() % 17 + 1;
-                int randy = rand() % 21 + 1;
+                int randy = rand() % 20 + 1;
                 while (map[randy][randx] == 2)
                 {
                     randx = rand() % 17 + 1;

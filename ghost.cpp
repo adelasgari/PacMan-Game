@@ -39,7 +39,33 @@ public:
 };
 void Ghost::returnHome(int map[22][19])
 {
-    
+    sorat = 0.1;
+    float xDist = x - 9 * 25 + 20;
+    float yDist = y - 9 * 24.9 + 200;
+    float dist = sqrt((xDist * xDist) + (yDist * yDist));
+
+    cout << dist << endl;
+    if ((int)ceil((y - 200) * 24.9) < 11 && (int)ceil((x - 20) * 25) < 9)
+    {
+        x += xDist * sorat;
+        y += yDist * sorat;
+    }
+    else if ((int)ceil((y - 200) * 24.9) > 11 && (int)ceil((x - 20) * 25) < 9)
+    {
+        x += xDist * sorat;
+        y -= yDist * sorat;
+    }
+    else if ((int)ceil((y - 200) * 24.9) < 11 && (int)ceil((x - 20) * 25) >= 9)
+    {
+        x -= xDist * sorat;
+        y += yDist * sorat;
+    }
+    else if ((int)ceil((y - 200) * 24.9) >= 11 && (int)ceil((x - 20) * 25) >= 9)
+    {
+        x -= xDist * sorat;
+        y -= yDist * sorat;
+    }
+
     // float absoluteX = ceil((x - 20) / 25);
     // float absoluteY = ceil((y - 200) / 25);
     // if (absoluteX <= 9 && absoluteY <= 11)
@@ -194,7 +220,7 @@ void Ghost::ShoroeTars()
     status = 3;
     if (jahateHarekat == 1)
     {
-          jahateHarekat = 3;
+        jahateHarekat = 3;
     }
     else if (jahateHarekat == 2)
     {
