@@ -10,7 +10,7 @@
 using namespace sf;
 bool winCheck(int map[22][19])
 {
-    
+
     for (size_t i = 0; i < 22; i++)
     {
         for (size_t j = 0; j < 19; j++)
@@ -129,11 +129,11 @@ int main()
     RenderWindow MainWindow(VideoMode(500, 800), "Adel Asgari 40012358027");
     // MainWindow.setFramerateLimit(60);
     Image icon;
-    icon.loadFromFile("pacpac.png");
+    icon.loadFromFile("Images/pacpac.png");
     MainWindow.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     Texture logo;
-    logo.loadFromFile("logo.png");
+    logo.loadFromFile("Images/logo.png");
     RectangleShape banner(Vector2f(500, 150));
     banner.setPosition(Vector2f(0, 0));
     banner.setTexture(&logo);
@@ -141,7 +141,7 @@ int main()
     Vector2i andaze(33, 33);
 
     Texture pacmanTexture;
-    pacmanTexture.loadFromFile("pacman.png");
+    pacmanTexture.loadFromFile("Images/pacman.png");
 
     Sprite PacMan(pacmanTexture);
     PacMan.setTextureRect(IntRect(0, 0, andaze.x, andaze.y));
@@ -166,7 +166,7 @@ int main()
     float sorat = 1;
 
     Texture worldmap;
-    worldmap.loadFromFile("map.png");
+    worldmap.loadFromFile("Images/map.png");
     Sprite worldsprite;
     worldsprite.setTexture(worldmap);
     worldsprite.setPosition(Vector2f(20, 200));
@@ -176,7 +176,7 @@ int main()
     setmap(map);
 
     Font font;
-    font.loadFromFile("times.ttf");
+    font.loadFromFile("Fonts/times.ttf");
 
     Text matneEmtiaz;
     matneEmtiaz.setString("Emtiaz : 0");
@@ -196,26 +196,27 @@ int main()
     int jahatePacMan = 3;
 
     Texture scareGhostTexture;
-    scareGhostTexture.loadFromFile("scaredghost.png");
+    scareGhostTexture.loadFromFile("Images/scaredghost.png");
     Texture redGhostTexture;
-    redGhostTexture.loadFromFile("redghost.png");
+    redGhostTexture.loadFromFile("Images/redghost.png");
     Ghost redGhost(245, 375, redGhostTexture, scareGhostTexture, 1, 1, 1);
+    
     int ghostStep = 1;
 
     Texture cyanGhostTexture;
-    cyanGhostTexture.loadFromFile("cyanghost.png");
+    cyanGhostTexture.loadFromFile("Images/cyanghost.png");
     Ghost cyanGhost(200, 435, cyanGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture orangeGhostTexture;
-    orangeGhostTexture.loadFromFile("orangeghost.png");
+    orangeGhostTexture.loadFromFile("Images/orangeghost.png");
     Ghost orangeGhost(228, 435, orangeGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture pinkGhostTexture;
-    pinkGhostTexture.loadFromFile("pinkghost.png");
+    pinkGhostTexture.loadFromFile("Images/pinkghost.png");
     Ghost pinkGhost(235, 435, pinkGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture food;
-    food.loadFromFile("foods.png");
+    food.loadFromFile("Images/foods.png");
     Sprite foodsprite;
     foodsprite.setTexture(food);
 
@@ -231,21 +232,19 @@ int main()
     float lossTime = 0;
     bool playerLoss = false;
 
-    Texture life1;
-    life1.loadFromFile("pacman.png");
-    Texture life2;
-    life2.loadFromFile("pacman.png");
+    Texture life;
+    life.loadFromFile("Images/pacman.png");
 
     Sprite lifes1;
-    lifes1.setTexture(life1);
+    lifes1.setTexture(life);
     lifes1.setPosition(Vector2f(50, 750));
     lifes1.setTextureRect(IntRect(63, 0, 33, 33));
     Sprite lifes2;
-    lifes2.setTexture(life2);
+    lifes2.setTexture(life);
     lifes2.setPosition(Vector2f(95, 750));
     lifes2.setTextureRect(IntRect(63, 0, 33, 33));
 
-    ifstream inputfile("HighScore.txt", ios::in);
+    ifstream inputfile("Data/HighScore.txt", ios::in);
     Text highScore;
     highScore.setFont(font);
     int highScoreFromFile = 0;
@@ -279,7 +278,7 @@ int main()
     bool isWin = false;
 
     Text myName;
-        myName.setFont(font);
+    myName.setFont(font);
     myName.setString("Adel Asgari 40012358027");
     myName.setPosition(Vector2f(150, 750));
     myName.setFillColor(Color::White);
@@ -346,7 +345,7 @@ int main()
             {
                 if (emtiaz > highScoreFromFile)
                 {
-                    ofstream output("HighScore.txt", ios::out);
+                    ofstream output("Data/HighScore.txt", ios::out);
                     output << emtiaz;
                     output.close();
                     highScore.setString("High Score: " + std::to_string(emtiaz));
