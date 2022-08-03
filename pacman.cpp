@@ -140,12 +140,12 @@ int main()
 
     Vector2i andaze(33, 33);
 
-    Texture t;
-    t.loadFromFile("pacman.png");
+    Texture pacmanTexture;
+    pacmanTexture.loadFromFile("pacman.png");
 
-    Sprite s(t);
-    s.setTextureRect(IntRect(0, 0, andaze.x, andaze.y));
-    s.setScale(Vector2f(0.8, 0.8));
+    Sprite PacMan(pacmanTexture);
+    PacMan.setTextureRect(IntRect(0, 0, andaze.x, andaze.y));
+    PacMan.setScale(Vector2f(0.8, 0.8));
 
     int CountOfLifes = 3;
 
@@ -293,7 +293,7 @@ int main()
         float zamanbarhasbesanieh = zamaneseparishode.asSeconds();
 
         int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame;
-        s.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));
+        PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));
 
         while (MainWindow.pollEvent(event))
         {
@@ -369,7 +369,7 @@ int main()
                 orangeGhost.setStatus(1);
                 orangeGhost.setPosition(228, 435);
 
-                s.setPosition(Vector2f(245, 487));
+                PacMan.setPosition(Vector2f(245, 487));
                 setmap(map);
 
                 jahatePacMan = 3;
@@ -513,7 +513,7 @@ int main()
                 }
             }
 
-            if (s.getGlobalBounds().intersects(foodsprite.getGlobalBounds()) && showFood)
+            if (PacMan.getGlobalBounds().intersects(foodsprite.getGlobalBounds()) && showFood)
             {
                 if (countOfEats >= 70 && countOfEats < 140)
                     emtiaz += 100;
@@ -523,30 +523,30 @@ int main()
                 showFood = false;
             }
 
-            if (!playerLoss && s.getGlobalBounds().intersects(redGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) || s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
+            if (!playerLoss && PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()) || PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) || PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) || PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
             {
                 if (isGhostsScare)
                 {
                     emtiaz += 200;
-                    if (s.getGlobalBounds().intersects(redGhost.getGlobalBounds()))
+                    if (PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()))
                     {
                         redGhost.setStatus(1);
                         // redGhost.setPosition(245, 375);
                         redGhost.returnHome(map);
                     }
-                    else if (s.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
+                    else if (PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
                     {
                         cyanGhost.setStatus(1);
                         // cyanGhost.setPosition(200, 435);
                         cyanGhost.returnHome(map);
                     }
-                    else if (s.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
+                    else if (PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
                     {
                         pinkGhost.setStatus(1);
                         // pinkGhost.setPosition(235, 435);
                         pinkGhost.returnHome(map);
                     }
-                    else if (s.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
+                    else if (PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
                     {
                         orangeGhost.setStatus(1);
                         // orangeGhost.setPosition(228, 435);
@@ -567,7 +567,7 @@ int main()
                     lossTime += deltatime.asSeconds();
                     x = 245;
                     y = 487;
-                    s.setPosition(Vector2f(x, y));
+                    PacMan.setPosition(Vector2f(x, y));
 
                     redGhost.setPosition(245, 375);
                     redGhost.taeineJahat(map, 1);
@@ -595,7 +595,7 @@ int main()
                 cyanGhost.taeineJahat(map, ghostStep);
                 orangeGhost.taeineJahat(map, ghostStep);
                 pinkGhost.taeineJahat(map, ghostStep);
-                s.setPosition(Vector2f(x, y));
+                PacMan.setPosition(Vector2f(x, y));
             }
             else if (lossTime <= 2.0 && playerLoss)
             {
@@ -627,7 +627,7 @@ int main()
             drawmap(MainWindow, map);
             MainWindow.draw(matneEmtiaz);
             MainWindow.draw(banner);
-            MainWindow.draw(s);
+            MainWindow.draw(PacMan);
             MainWindow.draw(redGhost);
             MainWindow.draw(cyanGhost);
             MainWindow.draw(orangeGhost);
