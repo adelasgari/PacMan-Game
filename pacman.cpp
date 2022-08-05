@@ -361,8 +361,8 @@ int main()
                 emtiaz = 0;
                 CountOfLifes = 3;
 
-                redGhost.setStatus(1);
-                redGhost.setPosition(245, 375);
+                redGhost.setStatus(1);          //تعیین وضعیت پرسه زدن برای روح ها
+                redGhost.setPosition(245, 375); //تعیین موقعیت اولیه روح ها
 
                 cyanGhost.setStatus(1);
                 cyanGhost.setPosition(200, 435);
@@ -379,99 +379,100 @@ int main()
                 jahatePacMan = 3;
             }
         }
-        if (isWin)
+        if (isWin) //اگر برنده شده ایم باید متن برد را نمایش دهیم
         {
-            MainWindow.clear(Color::Black);
-            MainWindow.draw(Win);
-            MainWindow.display();
+            MainWindow.clear(Color::Black); //پنجره را پاک می کنیم
+            MainWindow.draw(Win);           //متن برد را ترسیم می کنیم
+            MainWindow.display();           //نمایش پنجره جدید
         }
-        else if (!isGameOver)
+        else if (!isGameOver) //اگر پک من باخته است.برای جلوگیری از حرکت پک من پس از گیم آور شدن
         {
-            if (!playerLoss)
+            if (!playerLoss) //اگر جان فعلی نسوخته باشد.برای جلوگیری از حرکت پک من پس ار باخت
             {
-                if (jahatePacMan == 1)
+                if (jahatePacMan == 1) //اگر پک من در حال رفتن به سمت راست می باشد
                 {
-                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (5 * sorat)) / 25)] != 2)
+                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (5 * sorat)) / 25)] != 2) //اگر سمت راست پک من دیوارنباشد
                     {
-                        x += (0.12 * sorat);
+                        x += (0.12 * sorat); //حرکت به سمت راست
                     }
                 }
-                else if (jahatePacMan == 3)
+                else if (jahatePacMan == 3) //اگر پک من در حال رفتن به سمت چپ می باشد
                 {
-                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (5 * sorat)) / 25)] != 2)
+                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (5 * sorat)) / 25)] != 2) //اگر سمت چپ پک من دیوارنباشد
                     {
-                        x -= (0.12 * sorat);
+                        x -= (0.12 * sorat); //حرکت به سمت چپ
                     }
                 }
-                else if (jahatePacMan == 2)
+                else if (jahatePacMan == 2) //اگر پک من در حال رفتن به سمت پایین می باشد
                 {
-                    if (map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
+                    if (map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5) //اگر سمت پایین پک من دیوارنباشد
                     {
-                        y += (0.12 * sorat);
+                        y += (0.12 * sorat); //حرکت به سمت پایین
                     }
                 }
-                else if (jahatePacMan == 4)
+                else if (jahatePacMan == 4) //اگر پک من در حال رفتن به سمت بالا می باشد
                 {
-                    if (map[(int)ceil((y - 200 - (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2)
+                    if (map[(int)ceil((y - 200 - (5 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2) //اگر سمت بالای پک من دیوارنباشد
                     {
-                        y -= (0.12 * sorat);
+                        y -= (0.12 * sorat); //حرکت به سمت بالا
                     }
                 }
-                if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 0)
+                if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 0) //اگر در مختصات پک من خوراک عادی وجود دارد آنرا می خوریم
                 {
-                    countOfEats++;
-                    map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
-                    emtiaz += emtiazeHarNoghte;
+                    countOfEats++;                                                  //تعداد خوراک های خورده شده افزایش می یابد
+                    map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3; //چون خوراک خئورده شده است این خانه را خالی میکنیم
+                    emtiaz += emtiazeHarNoghte;                                     //دریافت امتیاز خوراک
 
-                    isWin = winCheck(map);
-                    // if (deltatime.asSeconds() != 0.0)
+                    isWin = winCheck(map); //آیا پس از خوردن این خوراک برده ایم؟
+                    // if (deltatime.asSeconds() != 0.0)//پس از خوردن خوراک عادی یک فریم متوقف میشویم
                     // {
                     //     sleep(microseconds(1 / deltatime.asMicroseconds()));
                     // }
                 }
             }
-            if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1)
+            if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1) //اگر فریم قدرتی در موقعیت پک من وجود دارد آنرا می خوریم
             {
-                if (deltatime.asSeconds() != 0.0)
+                if (deltatime.asSeconds() != 0.0) //با خوردن خوراکی قدرتی 3 فریم منتظر می مانیم
                 {
                     sleep(microseconds(3 / deltatime.asMicroseconds()));
                 }
-                emtiaz += emtiazeHarNoghteBozorg;
-                map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3;
-                isGhostsScare = true;
-                redGhost.ShoroeTars();
+                emtiaz += emtiazeHarNoghteBozorg;                               //امتیاز خوراک قدرتی را دریافت می کنیم
+                map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3; //خوراک قدرتی خورده شده است
+                isGhostsScare = true;                                           //نمایانگر ترس ارواح
+                redGhost.ShoroeTars();                                          //تمام روح ها شروع به ترس می کنند
                 cyanGhost.ShoroeTars();
                 pinkGhost.ShoroeTars();
                 orangeGhost.ShoroeTars();
-                ghostsScareTime += deltatime.asSeconds();
+                ghostsScareTime += deltatime.asSeconds(); //محاسبه زمان ترس ارواح
             }
             if (isGhostsScare && ghostsScareTime != 0)
             {
-                if (ghostsScareTime <= 6.0)
+                if (ghostsScareTime <= 6.0) //در مرحله اول 6 ثانیه ارواح در حالت ترسیده قرار می گیرند
                 {
-                    ghostsScareTime += deltatime.asSeconds();
-                    if (ghostsScareTime <= 6.0 && ghostsScareTime >= 5.0)
+                    ghostsScareTime += deltatime.asSeconds();             //جمع زمان ترس ارواح
+                    if (ghostsScareTime <= 6.0 && ghostsScareTime >= 5.0) //در ثانیه آخر شروع به چشمک زدن می کند
                     {
-                        timeToChangeColorOfScaredGhost += deltatime.asSeconds();
-                        if (redGhost.getStatus() == 3)
+                        //مجموع چشمک زدن ها به 5 مرتبه میرسد چون هر چشمک 0.1 ثانله طول می کشد
+                        timeToChangeColorOfScaredGhost += deltatime.asSeconds(); //زمان تغییر بین رنگ آبی و سفید را جمع می کنیم
+                        if (redGhost.getStatus() == 3)                           //اگر روح آبی رنگ است
                         {
-                            if (!(timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0))
+                            if (!(timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0)) // 0.1ثانیه منتظر میمانیم
                             {
-                                redGhost.setStatus(4);
+                                redGhost.setStatus(4); //ارواح به وضعیت سفید می روند
                                 cyanGhost.setStatus(4);
                                 pinkGhost.setStatus(4);
                                 orangeGhost.setStatus(4);
                             }
                         }
-                        else if (redGhost.getStatus() == 4)
+                        else if (redGhost.getStatus() == 4) //اگر ارواح آبی هستند 0.1 ثانیه فرصت می دهیم و ارواح آبی می شوند
                         {
                             if (!(timeToChangeColorOfScaredGhost <= 0.2 && timeToChangeColorOfScaredGhost >= 0.1))
                             {
-                                redGhost.setStatus(3);
+                                redGhost.setStatus(3); //ارواح آبی رنگ می شوند
                                 cyanGhost.setStatus(3);
                                 pinkGhost.setStatus(3);
                                 orangeGhost.setStatus(3);
-                                timeToChangeColorOfScaredGhost = 0;
+                                timeToChangeColorOfScaredGhost = 0; //زمان سنج ریست می شود تا مجدد چشمک زدن آغاز شود
                             }
                         }
                     }
@@ -479,10 +480,11 @@ int main()
 
                 else
                 {
+                    //پس از زمان ترسیدن ارواح و زمان سنج ها ریست می شوند
                     ghostsScareTime = 0;
                     isGhostsScare = false;
                     timeToChangeColorOfScaredGhost = 0;
-
+                    //ارواح شروع به پرسه زدن می کنند
                     redGhost.setStatus(1);
                     cyanGhost.setStatus(1);
                     pinkGhost.setStatus(1);
