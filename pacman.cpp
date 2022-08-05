@@ -154,85 +154,85 @@ int main()
     int normalizeX = 0;
     int normalizeY = 0;
 
-    Event event;//رویداد های صفحه کلید و موس را دریافت میکند
-    Time zamaneseparishode;//زمان سپری شده
+    Event event;            //رویداد های صفحه کلید و موس را دریافت میکند
+    Time zamaneseparishode; //زمان سپری شده
 
-    Clock clock;//برای اندازه گیری زمان
+    Clock clock; //برای اندازه گیری زمان
 
-    float zamaneanimation = 0.2;//مدت زمتن اجرای انیمیشن پک من
-    int tedadFrame = 3;//تعدتد عکس هتی تشکیل دهنده انیمیشن پک من
+    float zamaneanimation = 0.2; //مدت زمتن اجرای انیمیشن پک من
+    int tedadFrame = 3;          //تعدتد عکس هتی تشکیل دهنده انیمیشن پک من
 
-    float sorat = 1;//ضریب سرعت پک من
+    float sorat = 1; //ضریب سرعت پک من
 
     Texture worldmap;
-    worldmap.loadFromFile("Images/map.png");//بارگذاری عکس نقشه با زی
+    worldmap.loadFromFile("Images/map.png"); //بارگذاری عکس نقشه با زی
     Sprite worldsprite;
     worldsprite.setTexture(worldmap);
     worldsprite.setPosition(Vector2f(20, 200));
-    worldsprite.setScale(Vector2f(1.025, 1.065));//تغییر مقیاس نقشه بازی
+    worldsprite.setScale(Vector2f(1.025, 1.065)); //تغییر مقیاس نقشه بازی
 
-    int map[22][19];//تعیین نقشه بازی 
-    setmap(map);//پر کردن نقشه بازی
+    int map[22][19]; //تعیین نقشه بازی
+    setmap(map);     //پر کردن نقشه بازی
 
     Font font;
-    font.loadFromFile("Fonts/times.ttf");//بارگذاری فونت بازی
+    font.loadFromFile("Fonts/times.ttf"); //بارگذاری فونت بازی
 
-    Text matneEmtiaz;//متن امتیاز بازی
+    Text matneEmtiaz; //متن امتیاز بازی
     matneEmtiaz.setString("Emtiaz : 0");
     matneEmtiaz.setFont(font);
     matneEmtiaz.setPosition(Vector2f(20, 160));
     // matneEmtiaz.scale(Vector2f(0.8, 0.8));
     matneEmtiaz.setFillColor(Color::Yellow);
-    matneEmtiaz.setCharacterSize(28);//اندازه متن
+    matneEmtiaz.setCharacterSize(28); //اندازه متن
     matneEmtiaz.setOutlineColor(Color::Magenta);
     matneEmtiaz.setOutlineThickness(2);
 
-    int emtiaz = 20;//امتیاز اولیه بازی
-    int emtiazeHarNoghte = 10;//امتیاز هر خوراک عادی
-    int emtiazeHarNoghteBozorg = 50;//امتیاز هر خوراک قدرتی
+    int emtiaz = 20;                 //امتیاز اولیه بازی
+    int emtiazeHarNoghte = 10;       //امتیاز هر خوراک عادی
+    int emtiazeHarNoghteBozorg = 50; //امتیاز هر خوراک قدرتی
     int forsatebazi = 2;
 
-    int jahatePacMan = 3;//جهت اولیه پک-من
+    int jahatePacMan = 3; //جهت اولیه پک-من
 
     Texture scareGhostTexture;
-    scareGhostTexture.loadFromFile("Images/scaredghost.png");//بارگزاری روح ترسیده
+    scareGhostTexture.loadFromFile("Images/scaredghost.png"); //بارگزاری روح ترسیده
     Texture redGhostTexture;
-    redGhostTexture.loadFromFile("Images/redghost.png");//بارگزاری روح قرمز
+    redGhostTexture.loadFromFile("Images/redghost.png"); //بارگزاری روح قرمز
     Ghost redGhost(245, 375, redGhostTexture, scareGhostTexture, 1, 1, 1);
 
-    int ghostStep = 1;//مشخص کننده گام حرکت ارواح
+    int ghostStep = 1; //مشخص کننده گام حرکت ارواح
 
     Texture cyanGhostTexture;
-    cyanGhostTexture.loadFromFile("Images/cyanghost.png");//بارگزاری روح فیروزه ای
+    cyanGhostTexture.loadFromFile("Images/cyanghost.png"); //بارگزاری روح فیروزه ای
     Ghost cyanGhost(200, 435, cyanGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture orangeGhostTexture;
-    orangeGhostTexture.loadFromFile("Images/orangeghost.png");//بارگزاری روح نارنجی
+    orangeGhostTexture.loadFromFile("Images/orangeghost.png"); //بارگزاری روح نارنجی
     Ghost orangeGhost(228, 435, orangeGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture pinkGhostTexture;
-    pinkGhostTexture.loadFromFile("Images/pinkghost.png");//بارگزاری روح صورتی
+    pinkGhostTexture.loadFromFile("Images/pinkghost.png"); //بارگزاری روح صورتی
     Ghost pinkGhost(235, 435, pinkGhostTexture, scareGhostTexture, 1, 1, 1);
 
     Texture food;
-    food.loadFromFile("Images/foods.png");//بارگزاری غذا
+    food.loadFromFile("Images/foods.png"); //بارگزاری غذا
     Sprite foodsprite;
     foodsprite.setTexture(food);
 
-    int countOfEats = 0;
+    int countOfEats = 0; //تعداد غذاهای خورده شده
 
-    float secondsfromFoodShow = 0;
-    bool showFood = false;
+    float secondsfromFoodShow = 0; //تعداد ثانیه های گذشته از نمایش غذا
+    bool showFood = false;         // آیا غذا نمایش داده شده است؟
 
-    float ghostsScareTime = 0;
-    bool isGhostsScare = false;
-    float timeToChangeColorOfScaredGhost = 0;
+    float ghostsScareTime = 0;                //چقدر از زمان ترس ارواح گذشته است
+    bool isGhostsScare = false;               //آیا روح ها در حالت ترس قرار دارند
+    float timeToChangeColorOfScaredGhost = 0; //مدت زمانی که ارواح ترسیده چشمک می زنند
 
-    float lossTime = 0;
-    bool playerLoss = false;
+    float lossTime = 0;      //مدت زمانی ک پس از باخت پک من و ارواح ثابت می مانند و حرکتی نمی کنند
+    bool playerLoss = false; //آیا بازیکن باخته است؟
 
     Texture life;
-    life.loadFromFile("Images/pacman.png");
+    life.loadFromFile("Images/pacman.png"); //بارگزاری عکس پک من برای نمایش جان ها
 
     Sprite lifes1;
     lifes1.setTexture(life);
@@ -243,20 +243,20 @@ int main()
     lifes2.setPosition(Vector2f(95, 750));
     lifes2.setTextureRect(IntRect(63, 0, 33, 33));
 
-    ifstream inputfile("Data/HighScore.txt", ios::in);
+    ifstream inputfile("Data/HighScore.txt", ios::in); //خواندن بیشترین امتیاز از فایل
     int highScoreFromFile = 0;
     inputfile >> highScoreFromFile;
 
     Text highScore;
     highScore.setFont(font);
-    highScore.setString("High Score: " + std::to_string(highScoreFromFile));
+    highScore.setString("High Score: " + std::to_string(highScoreFromFile)); //نمایش بیشترین امنیاز درون متن
     highScore.setPosition(Vector2f(230, 160));
     highScore.setFillColor(Color::Yellow);
     highScore.setCharacterSize(28);
     highScore.setOutlineColor(Color::Magenta);
     highScore.setOutlineThickness(2);
 
-    Text gameover;
+    Text gameover; //متن نمایش داده شده در زمان باخت
     gameover.setFont(font);
     gameover.setString("Game Over!");
     gameover.setPosition(Vector2f(160, 400));
@@ -265,7 +265,7 @@ int main()
     gameover.setOutlineColor(Color::Magenta);
     gameover.setOutlineThickness(2);
 
-    Text Win;
+    Text Win; //زمان نمایش داده شده در زمان برد
     Win.setFont(font);
     Win.setString("You Win!");
     Win.setPosition(Vector2f(160, 400));
@@ -274,8 +274,8 @@ int main()
     Win.setOutlineColor(Color::Magenta);
     Win.setOutlineThickness(2);
 
-    bool isGameOver = false;
-    bool isWin = false;
+    bool isGameOver = false; //آیا پک من باخته است؟
+    bool isWin = false;      //آیا پک من برده است؟
 
     Text myName;
     myName.setFont(font);
@@ -286,26 +286,26 @@ int main()
     myName.setOutlineColor(Color::Magenta);
     myName.setOutlineThickness(2);
 
-    while (MainWindow.isOpen())
+    while (MainWindow.isOpen()) //حلقه اصلی بازی
     {
-        Time deltatime = clock.restart();
-        zamaneseparishode += deltatime;
-        float zamanbarhasbesanieh = zamaneseparishode.asSeconds();
+        Time deltatime = clock.restart();                          //مدت زمان اجرای هر بار حلقه
+        zamaneseparishode += deltatime;                            //کل زمان سپری شده را نگهداری می کنیم
+        float zamanbarhasbesanieh = zamaneseparishode.asSeconds(); //زمان سپری شده را بر حسب ثانیه نگهداری می کنیم
 
-        int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame;
-        PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));
+        int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame; //مشخص کردن شماره فریمی از پک من ک باید نمایش داده شود
+        PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));                         //تعیین برشی از بافت پک من که باید تمایش داده شود
 
-        while (MainWindow.pollEvent(event))
+        while (MainWindow.pollEvent(event)) //آیا رویدادی رخ داده است؟
         {
-            switch (event.type)
+            switch (event.type) //نوع رویداد رخ داده چیست
             {
-            case Event::EventType::KeyPressed:
+            case Event::EventType::KeyPressed: //اگر رویداد رخ داده فشردن کلید کیبرد باشد
 
-                if (event.key.code == Keyboard::Key::Right || event.key.code == Keyboard::Key::D)
+                if (event.key.code == Keyboard::Key::Right || event.key.code == Keyboard::Key::D) //اگر کلید راست یا D فشرده شد.
                 {
-                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (10 * sorat)) / 25)] != 2)
+                    if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (10 * sorat)) / 25)] != 2) //اگر سمت راست دیواری نبود
                     {
-                        jahatePacMan = 1;
+                        jahatePacMan = 1; //پک من به سمت راست حرکت می کند
                         // std::cout << "X: " + std::to_string((int)ceil((x - 20 + (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
                     }
                 }
@@ -313,7 +313,7 @@ int main()
                 {
                     if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (10 * sorat)) / 25)] != 2)
                     {
-                        jahatePacMan = 3;
+                        jahatePacMan = 3; //پک من به سمت چپ حرکت می کند
                         // std::cout << "X: " + std::to_string((int)ceil((x - 20 - (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
                     }
                 }
@@ -321,7 +321,7 @@ int main()
                 {
                     if (map[(int)ceil((y - 200 - (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2)
                     {
-                        jahatePacMan = 4;
+                        jahatePacMan = 4; //پک من به سمت بالا حرکت می کند
                         // std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 - (5 * sorat)) / 25)) << std::endl;
                     }
                 }
@@ -329,33 +329,33 @@ int main()
                 {
                     if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
                     {
-                        jahatePacMan = 2;
+                        jahatePacMan = 2; //پک من به سمت پایین حرکت می کند
                         // std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 + (5 * sorat)) / 25)) << std::endl;
                     }
                 }
-                else if (event.key.code == Keyboard::Key::Escape)
+                else if (event.key.code == Keyboard::Key::Escape) //اگر کلید esc فشرده شده
                 {
-                    MainWindow.close();
+                    MainWindow.close(); //پنجره بسته شود.
                 }
                 break;
 
-            case Event::EventType::Closed:
+            case Event::EventType::Closed: //اگر روی علامت ضربدر گوشه پنجره کلیک کردیم
                 MainWindow.close();
                 break;
             }
         }
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) //اگر کلیک چپ موس فشرده شد
         {
-            if (isWin || isGameOver)
+            if (isWin || isGameOver) //اگر برده یا باخته ایم و بازی تمام شده است.اکنون باید بازی ریست شود
             {
-                if (emtiaz > highScoreFromFile)
+                if (emtiaz > highScoreFromFile) //اگر بیشترین امتیاز جدید یافته ایم
                 {
                     ofstream output("Data/HighScore.txt", ios::out);
-                    output << emtiaz;
+                    output << emtiaz; //بیشترین امتیاز جدید را روی فایل می نویسیم
                     output.close();
-                    highScore.setString("High Score: " + std::to_string(emtiaz));
+                    highScore.setString("High Score: " + std::to_string(emtiaz)); //نمایش متن بیشترین امتیاز
                 }
-
+                //تعیین کلیه مقادیر به وضعیت اولیه
                 isGameOver = false;
                 isWin = false;
                 emtiaz = 0;
