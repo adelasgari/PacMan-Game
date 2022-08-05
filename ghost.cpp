@@ -35,9 +35,9 @@ public:
     int getStatus();
     void setPosition(float x, float y);
     FloatRect getGlobalBounds();
-    void returnHome(int map[22][19]);
+    void boroBe(int map[22][19]);
 };
-void Ghost::returnHome(int map[22][19])
+void Ghost::boroBe(int map[22][19])
 {
     sorat = 0.1;
     float xDist = x - 9 * 25 + 20;

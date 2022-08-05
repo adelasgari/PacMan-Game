@@ -22,12 +22,6 @@ bool winCheck(int map[22][19])
         }
     }
     return true;
-    // if (tedadeNoghteBaghimande == 0)
-    // {
-    //     return true;
-    // }
-    // else
-    //     return false;
 }
 void setmap(int map[22][19])
 {
@@ -111,9 +105,9 @@ void drawmap(RenderWindow &b, int map[22][19])
             }
             else if (map[i][j] == 2)
             {
-                // RectangleShape r(Vector2f(10, 10));
-                // r.setPosition(Vector2f(x, y));
-                // b.draw(r);
+                RectangleShape r(Vector2f(10, 10));
+                r.setPosition(Vector2f(x, y));
+                b.draw(r);
             }
 
             x += 25;
@@ -292,7 +286,7 @@ int main()
         Time deltatime = clock.restart();
         zamaneseparishode += deltatime;
         float zamanbarhasbesanieh = zamaneseparishode.asSeconds();
-
+        
         int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame;
         PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));
 
@@ -535,25 +529,25 @@ int main()
                     {
                         redGhost.setStatus(1);
                         // redGhost.setPosition(245, 375);
-                        redGhost.returnHome(map);
+                        redGhost.boroBe(map);
                     }
                     else if (PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
                     {
                         cyanGhost.setStatus(1);
                         // cyanGhost.setPosition(200, 435);
-                        cyanGhost.returnHome(map);
+                        cyanGhost.boroBe(map);
                     }
                     else if (PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
                     {
                         pinkGhost.setStatus(1);
                         // pinkGhost.setPosition(235, 435);
-                        pinkGhost.returnHome(map);
+                        pinkGhost.boroBe(map);
                     }
                     else if (PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
                     {
                         orangeGhost.setStatus(1);
                         // orangeGhost.setPosition(228, 435);
-                        orangeGhost.returnHome(map);
+                        orangeGhost.boroBe(map);
                     }
                 }
                 else
