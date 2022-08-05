@@ -8,14 +8,15 @@
 #include <functional>
 #include <fstream>
 using namespace sf;
+//این تابع برنده شدن در بازی را بررسی می کند
 bool winCheck(int map[22][19])
 {
 
-    for (size_t i = 0; i < 22; i++)
+    for (size_t i = 0; i < 22; i++)//تعداد سطرهای نقشه بازی 22 می باشد
     {
-        for (size_t j = 0; j < 19; j++)
+        for (size_t j = 0; j < 19; j++)//نعداد ستون های نقشه بازی 19 می باشد
         {
-            if (map[i][j] == 0)
+            if (map[i][j] == 0)//در نقشه بازی شماره 0 به معنی خوراکی عادی است
             {
                 return false;
             }
@@ -23,6 +24,7 @@ bool winCheck(int map[22][19])
     }
     return true;
 }
+//این تابع نقشه بازی را بر اساس عکس نقشه پر میکند
 void setmap(int map[22][19])
 {
     for (size_t i = 0; i < 22; i++)
@@ -105,9 +107,9 @@ void drawmap(RenderWindow &b, int map[22][19])
             }
             else if (map[i][j] == 2)
             {
-                RectangleShape r(Vector2f(10, 10));
-                r.setPosition(Vector2f(x, y));
-                b.draw(r);
+                // RectangleShape r(Vector2f(10, 10));
+                // r.setPosition(Vector2f(x, y));
+                // b.draw(r);
             }
 
             x += 25;

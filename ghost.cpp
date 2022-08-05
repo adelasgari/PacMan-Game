@@ -44,7 +44,6 @@ void Ghost::boroBe(int map[22][19])
     float yDist = y - 9 * 24.9 + 200;
     float dist = sqrt((xDist * xDist) + (yDist * yDist));
 
-    cout << dist << endl;
     if ((int)ceil((y - 200) * 24.9) < 11 && (int)ceil((x - 20) * 25) < 9)
     {
         x += xDist * sorat;
