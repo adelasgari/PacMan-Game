@@ -1,13 +1,12 @@
-#include <SFML/Graphics.hpp>
-#include <stdlib.h>
-#include <time.h>
-#include <iostream>
-#include <cmath>
-#include <string>
+#include <SFML/Graphics.hpp>//کتابخانه گرافیک SFML
+#include <stdlib.h>//برای تولید اعداد تصادفی توسط تابع rand,srand
+#include <time.h>//برای تولید اعداد کاملا تصادفی
+#include <iostream>//استفاده از ورودی خروجی استاندارد
+#include <cmath>//استفاده از توابع ریاضی
+#include <string>//کار با متن
 #include "ghost.cpp"
-#include <functional>
-#include <fstream>
-using namespace sf;
+#include <fstream>//کار با فایل
+using namespace sf;//فضای نام SFML
 //این تابع برنده شدن در بازی را بررسی می کند
 bool winCheck(int map[22][19])
 {
