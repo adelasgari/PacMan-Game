@@ -26,7 +26,7 @@ private:
 public:
     Ghost(float x, float y, const sf::Texture &playerTexture, const sf::Texture &ScaredTexture, int jahateHarekat, float sorat, int status);
     ~Ghost();
-    void taeineJahat(int map[22][19], int);                //مسیر یابی و حرکت روح
+    void taeineJahat(int map[22][19], int, float, float);  //مسیر یابی و حرکت روح
     int masirhayeMojaver(int map[22][19]);                 //یافتن مسیرهای باز اطراف روح
     int masireShansi(int map[22][19]);                     //تصمیم گیری برای حرکت
     virtual void draw(RenderTarget &, RenderStates) const; //ترسیم اسپرایت روح
@@ -47,11 +47,23 @@ Vector2f Ghost::masafat(float pacmanX, float pacmanY)
 }
 int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
 {
+    srand(0);
     int tas = 0;
-    int count = masirhayeMojaver(map);                        //یافتن مسیرهای باز برای روح عدد 1 یعنی مسیر بالا باز است-2 یعنی  سمت چپ باز است 4 پایین و 8 راست
+    int count = masirhayeMojaver(map); //یافتن مسیرهای باز برای روح عدد 1 یعنی مسیر بالا باز است-2 یعنی  سمت چپ باز است 4 پایین و 8 راست
+
+    cout << "X" << x << "  Y" << y <<"    "<<"   COUNT  "<<count<<"   jahateHarekat  "<<jahateHarekat<< endl;
     if (count == 1 || count == 2 || count == 4 || count == 8) //اگر فقط یک راه داریم!!!
     {
-        return jahateHarekat;
+       if (count==2)
+       {
+        return 1;
+       }
+       else if (count==8)
+       {
+        return 3;
+       }
+       
+       
     }
     else if (count == 3) //اگر مسیر بالا و چپ باز باشد و به راست میرویم باید مسیر بالا انتخاب شود چون نمیتوان برگشت. درغیراینصورت به سمت چپ می رویم
     {
@@ -112,15 +124,15 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     else if (count == 7) //اگر مسیر های بالا - چپ-پایین باز باشد
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
-        if (dist.x == 0 && dist.y > 0)
-            return 4;
-        else if (dist.x == 0 && dist.y < 0)
-            return 2;
-        else if (dist.x > 0 && dist.y == 0)
+        if (abs(dist.x) < 0.5 && dist.y > 0)
+           { return 4;}
+        else if (abs(dist.x) < 0.5 && dist.y < 0)
+           { return 2;}
+        else if (dist.x > 0 && abs(dist.y) < 0.5)
         {
             return 3;
         }
-        else if (dist.x < 0 && dist.y == 0)
+        else if (dist.x < 0 && abs(dist.y) < 0.5)
         {
             tas = rand() % 2;
             if (tas == 0)
@@ -162,11 +174,11 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     else if (count == 11) //اگر مسیرهای چپ-بالا-راست باز باشد
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
-        if (dist.x == 0 && dist.y > 0)
+        if (abs(dist.x) < 0.5 && dist.y > 0)
         {
             return 4;
         }
-        else if (dist.x == 0 && dist.y < 0)
+        else if (abs(dist.x) < 0.5 && dist.y < 0)
         {
             tas = rand() % 2;
             if (tas == 0)
@@ -176,11 +188,11 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
             else
                 return 3;
         }
-        else if (dist.x > 0 && dist.y == 0)
+        else if (dist.x > 0 && abs(dist.y) < 0.5)
         {
             return 3;
         }
-        else if (dist.x < 0 && dist.y == 0)
+        else if (dist.x < 0 && abs(dist.y) < 0.5)
         {
             return 1;
         }
@@ -190,7 +202,7 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
         }
         else if (dist.x > 0 && dist.y < 0)
         {
-            return 2;
+            return 3;
         }
         else if (dist.x < 0 && dist.y > 0)
         {
@@ -216,15 +228,15 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     else if (count == 13) //اگر مسیرهای بالا-راست -پایین باز باشد
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
-        if (dist.x == 0 && dist.y > 0)
+        if (abs(dist.x) < 0.5 && dist.y > 0)
         {
             return 4;
         }
-        else if (dist.x == 0 && dist.y < 0)
+        else if (abs(dist.x) < 0.5 && dist.y < 0)
         {
             return 2;
         }
-        else if (dist.x > 0 && dist.y == 0)
+        else if (dist.x > 0 && abs(dist.y) < 0.5)
         {
             tas = rand() % 2;
             if (tas == 0)
@@ -234,7 +246,7 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
             else
                 return 2;
         }
-        else if (dist.x < 0 && dist.y == 0)
+        else if (dist.x < 0 && abs(dist.y) < 0.5)
         {
             return 1;
         }
@@ -270,19 +282,25 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     else if (count == 14) //اگر مسیرهای راست-پایین-چپ باز باشد
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
-        if (dist.x == 0 && dist.y > 0)
+        if (abs(dist.x) < 0.5 && dist.y > 0)
         {
-            return 4;
+            tas = rand() % 2;
+            if (tas == 0)
+            {
+                return 1;
+            }
+            else
+                return 3;
         }
-        else if (dist.x == 0 && dist.y < 0)
+        else if (abs(dist.x) < 0.5 && dist.y < 0)
         {
             return 2;
         }
-        else if (dist.x > 0 && dist.y == 0)
+        else if (dist.x > 0 && abs(dist.y) < 0.5)
         {
             return 3;
         }
-        else if (dist.x < 0 && dist.y == 0)
+        else if (dist.x < 0 && abs(dist.y) < 0.5)
         {
             return 1;
         }
@@ -308,42 +326,29 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
         }
         else if (dist.x < 0 && dist.y > 0)
         {
-
-            tas = rand() % 2;
-            if (tas == 0)
-            {
-                return 1;
-            }
-            else
-                return 4;
+            return 1;
         }
         else if (dist.x > 0 && dist.y > 0)
         {
-            tas = rand() % 2;
-            if (tas == 0)
-            {
-                return 1;
-            }
-            else
-                return 3;
+            return 3;
         }
     }
     else if (count == 15) //اگر سر چهار راه باشیم
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
-        if (dist.x == 0 && dist.y > 0)
+        if (abs(dist.x) < 0.5 && dist.y > 0)
         {
             return 4;
         }
-        else if (dist.x == 0 && dist.y < 0)
+        else if (abs(dist.x) < 0.5 && dist.y < 0)
         {
             return 2;
         }
-        else if (dist.x > 0 && dist.y == 0)
+        else if (dist.x > 0 && abs(dist.y) < 0.5)
         {
             return 3;
         }
-        else if (dist.x < 0 && dist.y == 0)
+        else if (dist.x < 0 && abs(dist.y) < 0.5)
         {
             return 1;
         }
@@ -383,7 +388,7 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
             tas = rand() % 2;
             if (tas == 0)
             {
-                return 1;
+                return 4;
             }
             else
                 return 3;
@@ -610,7 +615,7 @@ Ghost::Ghost(float x, float y, const Texture &playerTexture, const sf::Texture &
 Ghost::~Ghost()
 {
 }
-void Ghost::taeineJahat(int map[22][19], int gameHarekat) //حرکت روح
+void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float pacmanY) //حرکت روح
 {
     if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahateHarekat == 3) //تونل جاویی سمت چپ
     {
@@ -624,12 +629,14 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat) //حرکت روح
     if (jahateHarekat == 1) //اگر به راست حرکت می کردیم
     {
         if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 + (10 * sorat)) / 25)] != 2) //اگر در مسیرحرکت دیوار نباشد
-        {
+
             x += (0.1 * sorat); //جابجا می شویم
 
-            jahateHarekat = masireShansi(map); //محاسبه امکان انتخاب مسیر بعدی در تقاطع ها
+        if (status == 1)
+        {
+            jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else
+        else if (status == 2)
         {
             jahateHarekat = masireShansi(map);
         }
@@ -638,37 +645,47 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat) //حرکت روح
     {
         //اگر سمت پایین ما دیوار یا درب ورود خانه ارواح نباشد می توانیم وارد شویم
         if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
-        {
+
             y += (0.1 * sorat);
 
-            jahateHarekat = masireShansi(map); //محاسبه امکان انتخاب مسیر بعدی در تقاطع ها
-
-            // y += (0.1 * sorat);
+        if (status == 1)
+        {
+            jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else
+        else if (status == 2)
+        {
             jahateHarekat = masireShansi(map);
+        }
     }
     else if (jahateHarekat == 3) //اگر به چپ حرکت می کردیم
     {
         if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (10 * sorat)) / 25)] != 2) //اگر در مسیرحرکت دیوار نباشد
-        {
+
             x -= (0.1 * sorat);
 
-            jahateHarekat = masireShansi(map); //محاسبه امکان انتخاب مسیر بعدی در تقاطع ها
+        if (status == 1)
+        {
+            jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else
+        else if (status == 2)
+        {
             jahateHarekat = masireShansi(map);
+        }
     }
     else if (jahateHarekat == 4)
     {
         if (map[(int)ceil((y - 200 - (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2) //اگر در مسیرحرکت دیوار نباشد
-        {
+
             y -= (0.1 * sorat);
 
-            jahateHarekat = masireShansi(map); //محاسبه امکان انتخاب مسیر بعدی در تقاطع ها
+        if (status == 1)
+        {
+            jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else
+        else if (status == 2)
+        {
             jahateHarekat = masireShansi(map);
+        }
     }
     if (status == 3) // اگر روح ترسیده باشد و رنگش آبی باشد
     {
@@ -998,7 +1015,7 @@ int Ghost::masireShansi(int map[22][19]) //انتخاب مسیر بعدی حرک
 int Ghost::masirhayeMojaver(int map[22][19]) //
 {
     int count = 0;
-    if (map[(int)(ceil((y - 200) / 24.9) - 1)][(int)ceil((x - 20) / 25)] != 2) //اگر سمت بالا راه داریم
+    if (map[(int)(ceil((y - 200) / 24.9)) - 1][(int)ceil((x - 20) / 25)] != 2) //اگر سمت بالا راه داریم
     {
         count += 1;
     }

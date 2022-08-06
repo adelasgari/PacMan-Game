@@ -108,9 +108,9 @@ void drawmap(RenderWindow &b, int map[22][19])
             else if (map[i][j] == 2)
             {
                 //کد های بخش ترسیم دیوار
-                // RectangleShape r(Vector2f(10, 10));
-                // r.setPosition(Vector2f(x, y));
-                // b.draw(r);
+                RectangleShape r(Vector2f(10, 10));
+                r.setPosition(Vector2f(x, y));
+                b.draw(r);
             }
 
             x += 25; //فاصله دو ستون 25 است
@@ -276,7 +276,7 @@ int main()
     bool isGameOver = false; //آیا پک من باخته است؟
     bool isWin = false;      //آیا پک من برده است؟
 
-    Text resetMenu;//منوی ریست
+    Text resetMenu; //منوی ریست
     resetMenu.setFont(font);
     resetMenu.setString("Reset(Q) | ");
     resetMenu.setPosition(Vector2f(150, 750));
@@ -285,7 +285,7 @@ int main()
     resetMenu.setOutlineColor(Color::Magenta);
     resetMenu.setOutlineThickness(2);
 
-    Text ClearHighScoreMenu;//منوی پاک کردن بیشترین امتیاز
+    Text ClearHighScoreMenu; //منوی پاک کردن بیشترین امتیاز
     ClearHighScoreMenu.setFont(font);
     ClearHighScoreMenu.setString("Clear High Score (C) |  ");
     ClearHighScoreMenu.setPosition(Vector2f(230, 750));
@@ -294,7 +294,7 @@ int main()
     ClearHighScoreMenu.setOutlineColor(Color::Magenta);
     ClearHighScoreMenu.setOutlineThickness(2);
 
-    Text ExitMenu;//منوی خروج
+    Text ExitMenu; //منوی خروج
     ExitMenu.setFont(font);
     ExitMenu.setString("Exit(ESC)");
     ExitMenu.setPosition(Vector2f(400, 750));
@@ -303,14 +303,15 @@ int main()
     ExitMenu.setOutlineColor(Color::Magenta);
     ExitMenu.setOutlineThickness(2);
 
-    Text DastorBazi;//منوی دستور بازی که با کلیک روی بنر بالای بازی نمایش داده می شود
+    Text DastorBazi; //منوی دستور بازی که با کلیک روی بنر بالای بازی نمایش داده می شود
     DastorBazi.setFont(font);
     DastorBazi.setString("Adel Asgari 40012358027\nbaraye harekate pacman az kelidhaye jahat dar ya w-a-s-d estefade mikonin\nba khordane har khorake aadi 10 emtiaz migirid\nba khordane har khorake ghdrati 50 emtiaz migirid");
     DastorBazi.setPosition(Vector2f(20, 20));
     DastorBazi.setFillColor(Color::Black);
     DastorBazi.setCharacterSize(20);
-    bool NemeyesheDastoreBazi = false;//اگر در حال نمایش دستور بازی باشیم و روی بنر کلیک کنیم مخفی می شود و در غیراینصورت نمایش داده می شود
+    bool NemeyesheDastoreBazi = false; //اگر در حال نمایش دستور بازی باشیم و روی بنر کلیک کنیم مخفی می شود و در غیراینصورت نمایش داده می شود
 
+    float ghostsMoveTimer = 0;
     while (MainWindow.isOpen()) //حلقه اصلی بازی
     {
         Time deltatime = clock.restart();                          //مدت زمان اجرای هر بار حلقه
@@ -661,14 +662,14 @@ int main()
                     PacMan.setPosition(Vector2f(x, y));
                     // رفتن ارواح به حالت اولیه
                     redGhost.setPosition(245, 375);
-                    redGhost.taeineJahat(map, 1);
+                    redGhost.taeineJahat(map, 1, x, y);
                     cyanGhost.setPosition(200, 435);
-                    cyanGhost.taeineJahat(map, 1);
+                    cyanGhost.taeineJahat(map, 1, x, y);
 
                     orangeGhost.setPosition(228, 435);
-                    orangeGhost.taeineJahat(map, 1);
+                    orangeGhost.taeineJahat(map, 1, x, y);
                     pinkGhost.setPosition(235, 435);
-                    pinkGhost.taeineJahat(map, 1);
+                    pinkGhost.taeineJahat(map, 1, x, y);
                 }
             }
             //اگر پک من به تونل جادویی رسیده باید به طرف دیگر برود
@@ -682,12 +683,14 @@ int main()
             }
             if (!playerLoss) //اگر بازیکن نباخته ارواح و پک من حرکت کنند
             {
+
                 ghostStep = (ghostStep + 1) % 2; //برای مشخص کردن حرکت پای ارواح
-                redGhost.taeineJahat(map, ghostStep);
-                cyanGhost.taeineJahat(map, ghostStep);
-                orangeGhost.taeineJahat(map, ghostStep);
-                pinkGhost.taeineJahat(map, ghostStep);
+                redGhost.taeineJahat(map, ghostStep, x, y);
+                cyanGhost.taeineJahat(map, ghostStep, x, y);
+                orangeGhost.taeineJahat(map, ghostStep, x, y);
+                pinkGhost.taeineJahat(map, ghostStep, x, y);
                 PacMan.setPosition(Vector2f(x, y));
+                ghostsMoveTimer = 0;
             }
             else if (lossTime <= 2.0 && playerLoss) //شمارش 2 ثانیه پس از باخت
             {
