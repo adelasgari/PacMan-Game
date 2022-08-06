@@ -311,7 +311,10 @@ int main()
     DastorBazi.setCharacterSize(20);
     bool NemeyesheDastoreBazi = false; //اگر در حال نمایش دستور بازی باشیم و روی بنر کلیک کنیم مخفی می شود و در غیراینصورت نمایش داده می شود
 
+    int traceTimer[] = {0, 7, 20, 7, 20, 5, 20, 5, 20}; //زمان بندی برای تعقیب-سرگردان-تعقیب....
+    int traceTimerPicker = 1;
     float ghostsMoveTimer = 0;
+
     while (MainWindow.isOpen()) //حلقه اصلی بازی
     {
         Time deltatime = clock.restart();                          //مدت زمان اجرای هر بار حلقه
@@ -685,12 +688,24 @@ int main()
             {
 
                 ghostStep = (ghostStep + 1) % 2; //برای مشخص کردن حرکت پای ارواح
+
+                ghostsMoveTimer += deltatime.asSeconds();
+                if (ghostsMoveTimer >= traceTimer[traceTimerPicker]) //با استفاده از زمان درون آرایه تایمرها مدت زمان تعقیب-سرگردان-تعقیب.....رعایت می شود
+                {
+                    int tempStatus = (((traceTimerPicker) % 2) + 1);//برای تعیین وضعیت ارواح بین1و2
+                    traceTimerPicker = traceTimerPicker % 9 + 1;//انتخاب کننده زمان تعقیب یا پیگیری
+                    ghostsMoveTimer = 0;//زمان سنج 
+                    redGhost.setStatus(tempStatus);
+                    cyanGhost.setStatus(tempStatus);
+                    orangeGhost.setStatus(tempStatus);
+                    pinkGhost.setStatus(tempStatus);
+                }
+
                 redGhost.taeineJahat(map, ghostStep, x, y);
                 cyanGhost.taeineJahat(map, ghostStep, x, y);
                 orangeGhost.taeineJahat(map, ghostStep, x, y);
                 pinkGhost.taeineJahat(map, ghostStep, x, y);
                 PacMan.setPosition(Vector2f(x, y));
-                ghostsMoveTimer = 0;
             }
             else if (lossTime <= 2.0 && playerLoss) //شمارش 2 ثانیه پس از باخت
             {

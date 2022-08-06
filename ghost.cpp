@@ -51,16 +51,16 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     int tas = 0;
     int count = masirhayeMojaver(map); //یافتن مسیرهای باز برای روح عدد 1 یعنی مسیر بالا باز است-2 یعنی  سمت چپ باز است 4 پایین و 8 راست
 
-    cout << "X" << x << "  Y" << y << "  Status  " << status << "   COUNT  " << count << "   jahateHarekat  " << jahateHarekat << endl;
+    // cout << "X" << x << "  Y" << y << "  Status  " << status << "   COUNT  " << count << "   jahateHarekat  " << jahateHarekat << endl;
     if (count == 1 || count == 2 || count == 4 || count == 8) //اگر فقط یک راه داریم!!!
     {
         if (count == 2)
         {
-            return 1;
+            return 3;
         }
         else if (count == 8)
         {
-            return 3;
+            return 1;
         }
     }
     else if (count == 3) //اگر مسیر بالا و چپ باز باشد و به راست میرویم باید مسیر بالا انتخاب شود چون نمیتوان برگشت. درغیراینصورت به سمت چپ می رویم
@@ -176,55 +176,62 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     else if (count == 11) //اگر مسیرهای چپ-بالا-راست باز باشد
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
-        if (abs(dist.x) < 0.5 && dist.y > 0)
+        if ((x > 7 * 25 + 20 && x < 11 * 25 + 20) && (y > 9 * 24.9 + 200 && y < 11 * 24.9 + 200))
         {
             return 4;
         }
-        else if (abs(dist.x) < 0.5 && dist.y < 0)
+        else
         {
-            tas = rand() % 2;
-            if (tas == 0)
-            {
-                return 1;
-            }
-            else
-                return 3;
-        }
-        else if (dist.x > 0 && abs(dist.y) < 0.5)
-        {
-            return 3;
-        }
-        else if (dist.x < 0 && abs(dist.y) < 0.5)
-        {
-            return 1;
-        }
-        else if (dist.x < 0 && dist.y < 0)
-        {
-            return 1;
-        }
-        else if (dist.x > 0 && dist.y < 0)
-        {
-            return 3;
-        }
-        else if (dist.x < 0 && dist.y > 0)
-        {
-            tas = rand() % 2;
-            if (tas == 0)
-            {
-                return 1;
-            }
-            else
-                return 4;
-        }
-        else if (dist.x > 0 && dist.y > 0)
-        {
-            tas = rand() % 2;
-            if (tas == 0)
+            if (abs(dist.x) < 0.5 && dist.y > 0)
             {
                 return 4;
             }
-            else
+            else if (abs(dist.x) < 0.5 && dist.y < 0)
+            {
+                tas = rand() % 2;
+                if (tas == 0)
+                {
+                    return 1;
+                }
+                else
+                    return 3;
+            }
+            else if (dist.x > 0 && abs(dist.y) < 0.5)
+            {
                 return 3;
+            }
+            else if (dist.x < 0 && abs(dist.y) < 0.5)
+            {
+                return 1;
+            }
+            else if (dist.x < 0 && dist.y < 0)
+            {
+                return 1;
+            }
+            else if (dist.x > 0 && dist.y < 0)
+            {
+                return 3;
+            }
+            else if (dist.x < 0 && dist.y > 0)
+            {
+                tas = rand() % 2;
+                if (tas == 0)
+                {
+                    return 1;
+                }
+                else
+                    return 4;
+            }
+            else if (dist.x > 0 && dist.y > 0)
+            {
+                tas = rand() % 2;
+                if (tas == 0)
+                {
+                    return 4;
+                }
+                else
+                    return 3;
+            }
         }
     }
     else if (count == 13) //اگر مسیرهای بالا-راست -پایین باز باشد
@@ -863,6 +870,10 @@ int Ghost::masireShansi(int map[22][19]) //انتخاب مسیر بعدی حرک
     }
     else if (count == 11) //اگر مسیرهای چپ-بالا-راست باز باشد
     {
+        if ((x > 7 * 25 + 20 && x < 11 * 25 + 20) && (y > 9 * 24.9 + 200 && y < 11 * 24.9 + 200))
+        {
+            return 4;
+        }
         tas = (rand() % 2) + 1;
         if (jahateHarekat == 1)
         {
