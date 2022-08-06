@@ -650,6 +650,7 @@ int main()
             {
 
                 bool pacmanColision = false;
+                //اگر به روح ترسیده برخورد کنیم امتیاز دریافت می کنیم
                 if (PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()) && (redGhost.getStatus() == 3 || redGhost.getStatus() == 4)) //اگر روح قرمز را خورده ایم
                 {
                     redGhost.setStatus(1);
@@ -676,6 +677,7 @@ int main()
                     emtiaz += 200;
                     orangeGhost.setPosition(228, 435);
                 }
+                //اگر به روح درحالت تعقیب یا پرسه برخورد کنیم میبازیم
                 if (PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()) && (redGhost.getStatus() == 1 || redGhost.getStatus() == 2)) //اگر روح قرمز را خورده ایم
                 {
                     pacmanColision = true;
@@ -745,7 +747,7 @@ int main()
                         int tempStatus = (((traceTimerPicker) % 2) + 1); //برای تعیین وضعیت ارواح بین1و2
                         traceTimerPicker = traceTimerPicker % 9 + 1;     //انتخاب کننده زمان تعقیب یا پیگیری
                         ghostsMoveTimer = 0;                             //زمان سنج
-                        if (redGhost.getStatus() != 5)
+                        if (redGhost.getStatus() != 5)//اگر روح خورده نشده باید تغییر وضیعت بر اساس تایمر ها داشته باشد
                             redGhost.setStatus(tempStatus);
                         if (cyanGhost.getStatus() != 5)
                             cyanGhost.setStatus(tempStatus);
@@ -755,7 +757,7 @@ int main()
                             pinkGhost.setStatus(tempStatus);
                     }
                 }
-                if (redGhost.getStatus() == 5)
+                if (redGhost.getStatus() == 5)//اگر روح خورده شده و باید به خانه برگردد
                     redGhost.taeineJahat(map, ghostStep, 245, 424);
                 else
                     redGhost.taeineJahat(map, ghostStep, x, y);
