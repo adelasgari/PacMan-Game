@@ -35,23 +35,23 @@ public:
     int getStatus();                                       //دریافت وضعیت روح
     void setPosition(float x, float y);                    //تغییر مختصات
     FloatRect getGlobalBounds();                           //دریافت مستطیل محاط روح
-    void boroBe(int map[22][19]);                          //مسیریابی
-    int Taaghib(int map[22][19], float, float);
-    Vector2f masafat(float, float);
+    int Taaghib(int map[22][19], float, float);            //تعقیب پک-من
+    Vector2f masafat(float, float);                        //مسافت بین پک من و روح جهت تعقیب
 };
+//دریافت مختصات پک من و محاسبه مسافت روح و پک من جهت تعقیب
 Vector2f Ghost::masafat(float pacmanX, float pacmanY)
 {
-    float distX = x - pacmanX;
+    float distX = x - pacmanX; //اختلاف پک من و روح
     float distY = y - pacmanY;
     return Vector2f(distX, distY);
 }
+//دریافت مختصات پک من و تعقیبش توسط محاسبه مسافت بین روح و پک من
 int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
 {
     srand(0);
     int tas = 0;
     int count = masirhayeMojaver(map); //یافتن مسیرهای باز برای روح عدد 1 یعنی مسیر بالا باز است-2 یعنی  سمت چپ باز است 4 پایین و 8 راست
 
-    // cout << "X" << x << "  Y" << y << "  Status  " << status << "   COUNT  " << count << "   jahateHarekat  " << jahateHarekat << endl;
     if (count == 1 || count == 2 || count == 4 || count == 8) //اگر فقط یک راه داریم!!!
     {
         if (count == 2)
@@ -121,7 +121,14 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     //سه راهی ها را محاسبه می کنیم
     else if (count == 7) //اگر مسیر های بالا - چپ-پایین باز باشد
     {
+        //محاسبه فاصله بین پک من و روح
         Vector2f dist = masafat(pacmanX, pacmanY);
+        //بررسی کلیه این حالت ها
+        //اگر علامت ضرب نشان دهنده روح و علامت + نشان دهنده پک من باشد
+        //+   +    +
+        //+   *    +
+        //+   +    +
+        //
         if (abs(dist.x) < 0.5 && dist.y > 0)
         {
             return 4;
@@ -182,6 +189,12 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
         }
         else
         {
+            //بررسی کلیه این حالت ها
+            //اگر علامت ضرب نشان دهنده روح و علامت + نشان دهنده پک من باشد
+            //+   +    +
+            //+   *    +
+            //+   +    +
+            //
             if (abs(dist.x) < 0.5 && dist.y > 0)
             {
                 return 4;
@@ -232,10 +245,18 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
                 else
                     return 3;
             }
+            else
+                return 1;
         }
     }
     else if (count == 13) //اگر مسیرهای بالا-راست -پایین باز باشد
     {
+        //بررسی کلیه این حالت ها
+        //اگر علامت ضرب نشان دهنده روح و علامت + نشان دهنده پک من باشد
+        //+   +    +
+        //+   *    +
+        //+   +    +
+        //
         Vector2f dist = masafat(pacmanX, pacmanY);
         if (abs(dist.x) < 0.5 && dist.y > 0)
         {
@@ -290,6 +311,12 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     }
     else if (count == 14) //اگر مسیرهای راست-پایین-چپ باز باشد
     {
+        //بررسی کلیه این حالت ها
+        //اگر علامت ضرب نشان دهنده روح و علامت + نشان دهنده پک من باشد
+        //+   +    +
+        //+   *    +
+        //+   +    +
+        //
         Vector2f dist = masafat(pacmanX, pacmanY);
         if (abs(dist.x) < 0.5 && dist.y > 0)
         {
@@ -344,6 +371,12 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     }
     else if (count == 15) //اگر سر چهار راه باشیم
     {
+        //بررسی کلیه این حالت ها
+        //اگر علامت ضرب نشان دهنده روح و علامت + نشان دهنده پک من باشد
+        //+   +    +
+        //+   *    +
+        //+   +    +
+        //
         Vector2f dist = masafat(pacmanX, pacmanY);
         if (abs(dist.x) < 0.5 && dist.y > 0)
         {
@@ -404,162 +437,6 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
         }
     }
 }
-void Ghost::boroBe(int map[22][19])
-{
-    sorat = 0.1;
-    float xDist = x - 9 * 25 + 20;
-    float yDist = y - 9 * 24.9 + 200;
-    float dist = sqrt((xDist * xDist) + (yDist * yDist));
-
-    if ((int)ceil((y - 200) * 24.9) < 11 && (int)ceil((x - 20) * 25) < 9)
-    {
-        x += xDist * sorat;
-        y += yDist * sorat;
-    }
-    else if ((int)ceil((y - 200) * 24.9) > 11 && (int)ceil((x - 20) * 25) < 9)
-    {
-        x += xDist * sorat;
-        y -= yDist * sorat;
-    }
-    else if ((int)ceil((y - 200) * 24.9) < 11 && (int)ceil((x - 20) * 25) >= 9)
-    {
-        x -= xDist * sorat;
-        y += yDist * sorat;
-    }
-    else if ((int)ceil((y - 200) * 24.9) >= 11 && (int)ceil((x - 20) * 25) >= 9)
-    {
-        x -= xDist * sorat;
-        y -= yDist * sorat;
-    }
-
-    // float absoluteX = ceil((x - 20) / 25);
-    // float absoluteY = ceil((y - 200) / 25);
-    // if (absoluteX <= 9 && absoluteY <= 11)
-    // {
-    //     while (absoluteX != 4 && absoluteY != 4)
-    //     {
-    //         if (absoluteX < 4)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-    //                 absoluteX += 0.1 * sorat;
-    //         }
-    //         else if (absoluteX > 4)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         x = absoluteX * 25 + 20;
-    //         if (absoluteY < 4)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-    //                 absoluteY += 0.1;
-    //         }
-    //         else if (absoluteX > 4)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         y = absoluteY * 24.9 + 200;
-    //         setPosition(x, y);
-    //     }
-    // }
-    // else if (x <= 9 && y > 11)
-    // {
-    //     while (absoluteX != 2 && absoluteY != 18)
-    //     {
-    //         if (absoluteX < 2)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-    //                 absoluteX += 0.1 * sorat;
-    //         }
-    //         else if (absoluteX > 2)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         x = absoluteX * 25 + 20;
-    //         if (absoluteY < 18)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-    //                 absoluteY += 0.1;
-    //         }
-    //         else if (absoluteX > 18)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         y = absoluteY * 24.9 + 200;
-    //         setPosition(x, y);
-    //     }
-    // }
-    // else if (x >= 9 && y <= 11)
-    // {
-
-    //     while (absoluteX != 14 && absoluteY != 4)
-    //     {
-    //         if (absoluteX < 14)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-    //                 absoluteX += 0.1 * sorat;
-    //         }
-    //         else if (absoluteX > 14)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         x = absoluteX * 25 + 20;
-    //         if (absoluteY < 4)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-    //                 absoluteY += 0.1 * sorat;
-    //         }
-    //         else if (absoluteX > 4)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         y = absoluteY * 24.9 + 200;
-    //         setPosition(x, y);
-    //     }
-    // }
-    // else if (x >= 9 && y > 11)
-    // {
-    //     while (absoluteX != 2 && absoluteY != 18)
-    //     {
-    //         if (absoluteX < 16)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-    //                 absoluteX += 0.1 * sorat;
-    //         }
-    //         else if (absoluteX > 16)
-    //         {
-    //             if (map[(int)absoluteY][(int)(absoluteX + .1 * sorat)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         x = absoluteX * 25 + 20;
-    //         if (absoluteY < 18)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-    //                 absoluteY += 0.1;
-    //         }
-    //         else if (absoluteX > 18)
-    //         {
-    //             if (map[(int)(absoluteY + .1 * sorat)][(int)(absoluteX)] != 2)
-
-    //                 absoluteX -= 0.1 * sorat;
-    //         }
-    //         y = absoluteY * 24.9 + 200;
-    //         setPosition(x, y);
-    //     }
-    // }
-}
 FloatRect Ghost::getGlobalBounds() //دریافت مستطیل محاط به روح جهت محاسبه برخورد با پک-من
 {
     if (status == 3 || status == 4) //اگر وضعیت ترسیده باشد در حال نمایش حالت ترسیده روح هستیم و از ssprite استفاده می کنیم
@@ -572,11 +449,12 @@ void Ghost::setPosition(float x, float y) //تنظیم موقعیت روح
     this->x = x;
     this->y = y;
 }
-
+//دریافت وضعیت روح
 int Ghost::getStatus()
 {
     return status;
 }
+//تغییر وضعیت روح
 void Ghost::setStatus(int status)
 {
     this->status = status;
@@ -626,6 +504,13 @@ Ghost::~Ghost()
 }
 void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float pacmanY) //حرکت روح
 {
+    if (status == 5)
+    {
+        sorat = 1.5;
+    }
+    else
+        sorat = 1;
+
     if ((int)ceil((x - 20) / 25) == 0 && (int)ceil((y - 200) / 24.9) == 10 && jahateHarekat == 3) //تونل جاویی سمت چپ
     {
         x = 20 + 18 * 25;
@@ -641,7 +526,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
 
             x += (0.1 * sorat); //جابجا می شویم
 
-        if (status == 1)
+        if (status == 1 || status == 5)
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
@@ -657,7 +542,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
 
             y += (0.1 * sorat);
 
-        if (status == 1)
+        if (status == 1 || status == 5)
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
@@ -672,7 +557,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
 
             x -= (0.1 * sorat);
 
-        if (status == 1)
+        if (status == 1 || status == 5)
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
@@ -687,7 +572,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
 
             y -= (0.1 * sorat);
 
-        if (status == 1)
+        if (status == 1 || status == 5)
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }

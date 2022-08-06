@@ -58,7 +58,7 @@ void setmap(int map[22][19])
     map[7][1] = map[7][2] = map[7][3] = map[7][5] = map[7][6] = map[7][7] = map[7][9] = map[7][11] = map[7][12] = map[7][13] = map[7][15] = map[7][16] = map[7][17] = 2;
     map[8][1] = map[8][2] = map[8][3] = map[8][5] = map[8][13] = map[8][15] = map[8][16] = map[8][17] = 2;
     map[9][1] = map[9][2] = map[9][3] = map[9][5] = map[9][7] = map[9][8] = map[9][10] = map[9][11] = map[9][13] = map[9][15] = map[9][16] = map[9][17] = 2;
-    // درب ختنه روح ها
+    // درب خانه روح ها
     map[9][9] = 5;
     //خانه های پوچ
     map[10][0] = map[10][1] = map[10][2] = map[10][3] = map[10][8] = map[10][9] = map[10][10] = map[10][15] = map[10][16] = map[10][17] = map[10][18] = 3;
@@ -108,9 +108,9 @@ void drawmap(RenderWindow &b, int map[22][19])
             else if (map[i][j] == 2)
             {
                 //کد های بخش ترسیم دیوار
-                RectangleShape r(Vector2f(10, 10));
-                r.setPosition(Vector2f(x, y));
-                b.draw(r);
+                // RectangleShape r(Vector2f(10, 10));
+                // r.setPosition(Vector2f(x, y));
+                // b.draw(r);
             }
 
             x += 25; //فاصله دو ستون 25 است
@@ -132,7 +132,7 @@ int main()
     Texture logo;
     logo.loadFromFile("Images/logo.png"); //بارگذاری بنر بازی
     RectangleShape banner(Vector2f(500, 150));
-    banner.setPosition(Vector2f(0, 0));
+    banner.setPosition(Vector2f(0, 0)); // با کلیک بر روی بنر بازی دستور العمل بازی نمایش داده می شود
     banner.setTexture(&logo);
 
     Vector2i andaze(33, 33); //اندازه کاراکتر پک من
@@ -140,18 +140,18 @@ int main()
     Texture pacmanTexture;
     pacmanTexture.loadFromFile("Images/pacman.png"); //بارگذاری عکس پک من
 
+    Texture pacmanLossTexture;
+    pacmanLossTexture.loadFromFile("Images/lossedpacman.png"); //بارگذاری عکس پک من باخته
+
     Sprite PacMan(pacmanTexture);
     PacMan.setTextureRect(IntRect(0, 0, andaze.x, andaze.y));
     PacMan.setScale(Vector2f(0.8, 0.8));
-    PacMan.setOrigin(Vector2f(17, 17));
+    PacMan.setOrigin(Vector2f(17, 17)); //مشخص کردن مرکز شکل جهت چرخش
     PacMan.setRotation(180);
     int CountOfLifes = 3; //تعداد جانهای بارگذاری شده
 
     float x = 245; //مختصات x پک من
-    float y = 487; //مختصات y پک من
-
-    int normalizeX = 0;
-    int normalizeY = 0;
+    float y = 475; //مختصات y پک من
 
     Event event;            //رویداد های صفحه کلید و موس را دریافت میکند
     Time zamaneseparishode; //زمان سپری شده
@@ -164,7 +164,7 @@ int main()
     float sorat = 1; //ضریب سرعت پک من
 
     Texture worldmap;
-    worldmap.loadFromFile("Images/map.png"); //بارگذاری عکس نقشه با زی
+    worldmap.loadFromFile("Images/map.png"); //بارگذاری عکس نقشه بازی
     Sprite worldsprite;
     worldsprite.setTexture(worldmap);
     worldsprite.setPosition(Vector2f(20, 200));
@@ -233,14 +233,14 @@ int main()
     Texture life;
     life.loadFromFile("Images/pacman.png"); //بارگزاری عکس پک من برای نمایش جان ها
 
-    Sprite lifes1;
+    Sprite lifes1; //مکان نمایش جان ها در پایین صفحه
     lifes1.setTexture(life);
     lifes1.setPosition(Vector2f(50, 750));
-    lifes1.setTextureRect(IntRect(63, 0, 33, 33));
+    lifes1.setTextureRect(IntRect(0, 0, 32, 33));
     Sprite lifes2;
     lifes2.setTexture(life);
     lifes2.setPosition(Vector2f(95, 750));
-    lifes2.setTextureRect(IntRect(63, 0, 33, 33));
+    lifes2.setTextureRect(IntRect(0, 0, 32, 33));
 
     ifstream inputfile("Data/HighScore.txt", ios::in); //خواندن بیشترین امتیاز از فایل
     int highScoreFromFile = 0;
@@ -312,7 +312,7 @@ int main()
     bool NemeyesheDastoreBazi = false; //اگر در حال نمایش دستور بازی باشیم و روی بنر کلیک کنیم مخفی می شود و در غیراینصورت نمایش داده می شود
 
     int traceTimer[] = {0, 7, 20, 7, 20, 5, 20, 5, 20}; //زمان بندی برای تعقیب-سرگردان-تعقیب....
-    int traceTimerPicker = 1;
+    int traceTimerPicker = 1;                           //شماره صفر هیچ وقت انتخاب نمی شود
     float ghostsMoveTimer = 0;
 
     while (MainWindow.isOpen()) //حلقه اصلی بازی
@@ -320,10 +320,17 @@ int main()
         Time deltatime = clock.restart();                          //مدت زمان اجرای هر بار حلقه
         zamaneseparishode += deltatime;                            //کل زمان سپری شده را نگهداری می کنیم
         float zamanbarhasbesanieh = zamaneseparishode.asSeconds(); //زمان سپری شده را بر حسب ثانیه نگهداری می کنیم
-
-        int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame; //مشخص کردن شماره فریمی از پک من ک باید نمایش داده شود
-        PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));                         //تعیین برشی از بافت پک من که باید تمایش داده شود
-
+        if (playerLoss)
+        {
+            int frame = static_cast<int>((zamanbarhasbesanieh / 2) * 14) % 14; //مشخص کردن شماره فریمی از پک من باخته ک باید نمایش داده شود
+            PacMan.setTexture(pacmanLossTexture);
+            PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y)); //تعیین برشی از بافت پک من باخته که باید تمایش داده شود
+        }
+        else
+        {
+            int frame = static_cast<int>((zamanbarhasbesanieh / zamaneanimation) * tedadFrame) % tedadFrame; //مشخص کردن شماره فریمی از پک من ک باید نمایش داده شود
+            PacMan.setTextureRect(IntRect(frame * andaze.x, 0, andaze.x, andaze.y));                         //تعیین برشی از بافت پک من که باید تمایش داده شود
+        }
         while (MainWindow.pollEvent(event)) //آیا رویدادی رخ داده است؟
         {
             switch (event.type) //نوع رویداد رخ داده چیست
@@ -343,7 +350,6 @@ int main()
                 {
                     if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20 - (10 * sorat)) / 25)] != 2)
                     {
-
                         PacMan.setRotation(180);
                         jahatePacMan = 3; //پک من به سمت چپ حرکت می کند
                         // std::cout << "X: " + std::to_string((int)ceil((x - 20 - (5 * sorat)) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200) / 24.9)) << std::endl;
@@ -353,7 +359,6 @@ int main()
                 {
                     if (map[(int)ceil((y - 200 - (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2)
                     {
-
                         PacMan.setRotation(270);
                         jahatePacMan = 4; //پک من به سمت بالا حرکت می کند
                         // std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 - (5 * sorat)) / 25)) << std::endl;
@@ -363,7 +368,6 @@ int main()
                 {
                     if (map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 2 && map[(int)ceil((y - 200 + (10 * sorat)) / 24.9)][(int)ceil((x - 20) / 25)] != 5)
                     {
-
                         PacMan.setRotation(90);
                         jahatePacMan = 2; //پک من به سمت پایین حرکت می کند
                         // std::cout << "X: " + std::to_string(ceil((x - 20) / 25)) + " ,Y: " + std::to_string((int)ceil((y - 200 + (5 * sorat)) / 25)) << std::endl;
@@ -379,7 +383,7 @@ int main()
                     isGameOver = false;
                     isWin = false;
                     emtiaz = 0;
-                    CountOfLifes = 3;
+                    CountOfLifes = 2;
 
                     redGhost.setStatus(1);          //تعیین وضعیت پرسه زدن برای روح ها
                     redGhost.setPosition(245, 375); //تعیین موقعیت اولیه روح ها
@@ -400,12 +404,13 @@ int main()
 
                     jahatePacMan = 3;
                     PacMan.setRotation(180);
+                    countOfEats = 0;
                 }
                 else if (event.key.code == Keyboard::Key::C)
                 {
 
-                    ofstream output("Data/HighScore.txt", ios::out);
-                    output << 0; //بیشترین امتیاز 0 را روی فایل می نویسیم
+                    ofstream output("Data/HighScore.txt", ios::out); //فایل امتیازات را باز می کنیم
+                    output << 0;                                     //بیشترین امتیاز 0 را روی فایل می نویسیم
                     output.close();
                 }
 
@@ -418,21 +423,21 @@ int main()
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) //اگر کلیک چپ موس فشرده شد
         {
-            auto mouse_pos = sf::Mouse::getPosition(MainWindow);          // Mouse position relative to the window
-            auto translated_pos = MainWindow.mapPixelToCoords(mouse_pos); // Mouse position translated into world coordinates
-            if (ClearHighScoreMenu.getGlobalBounds().contains(translated_pos))
+            auto mouse_pos = sf::Mouse::getPosition(MainWindow);               // موقعیت نسبی موس نسبت به ویندوز
+            auto translated_pos = MainWindow.mapPixelToCoords(mouse_pos);      // تبدیل موقعیت موس به موقعیت در کل بازی
+            if (ClearHighScoreMenu.getGlobalBounds().contains(translated_pos)) //اگر کلیک چپ موس در محدوده منوی پاک کردن بیشترین امتیاز باشد
             {
                 ofstream output("Data/HighScore.txt", ios::out);
                 output << 0; //بیشترین امتیاز 0 را روی فایل می نویسیم
                 output.close();
             }
-            if (ExitMenu.getGlobalBounds().contains(translated_pos))
+            if (ExitMenu.getGlobalBounds().contains(translated_pos)) //اگر کلیک چپ موس در محدوده منوی خروج باشد
             {
                 MainWindow.close();
             }
-            if (banner.getGlobalBounds().contains(translated_pos))
+            if (banner.getGlobalBounds().contains(translated_pos)) //اگر کلیک چپ موس در محدوده منوی بنر بالای بازی باشد
             {
-                NemeyesheDastoreBazi = !NemeyesheDastoreBazi;
+                NemeyesheDastoreBazi = !NemeyesheDastoreBazi; //باعث می شود تا با کلیک بر روی بنر دستور العمل بازی نمایش داده شود
             }
 
             if (isWin || isGameOver || resetMenu.getGlobalBounds().contains(translated_pos)) //اگر برده یا باخته ایم و بازی تمام شده است.اکنون باید بازی ریست شود
@@ -448,7 +453,8 @@ int main()
                 isGameOver = false;
                 isWin = false;
                 emtiaz = 0;
-                CountOfLifes = 3;
+                CountOfLifes = 2;
+                countOfEats = 0;
 
                 redGhost.setStatus(1);          //تعیین وضعیت پرسه زدن برای روح ها
                 redGhost.setPosition(245, 375); //تعیین موقعیت اولیه روح ها
@@ -470,6 +476,7 @@ int main()
                 PacMan.setRotation(180);
             }
         }
+
         if (isWin) //اگر برنده شده ایم باید متن برد را نمایش دهیم
         {
             MainWindow.clear(Color::Black); //پنجره را پاک می کنیم
@@ -514,11 +521,11 @@ int main()
                     map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] = 3; //چون خوراک خئورده شده است این خانه را خالی میکنیم
                     emtiaz += emtiazeHarNoghte;                                     //دریافت امتیاز خوراک
 
-                    isWin = winCheck(map); //آیا پس از خوردن این خوراک برده ایم؟
-                    // if (deltatime.asSeconds() != 0.0)//پس از خوردن خوراک عادی یک فریم متوقف میشویم
-                    // {
-                    //     sleep(microseconds(1 / deltatime.asMicroseconds()));
-                    // }
+                    isWin = winCheck(map);            //آیا پس از خوردن این خوراک برده ایم؟
+                    if (deltatime.asSeconds() != 0.0) //پس از خوردن خوراک عادی یک فریم متوقف میشویم
+                    {
+                        sleep(microseconds(1 / deltatime.asMicroseconds()));
+                    }
                 }
             }
             if (map[(int)ceil((y - 200) / 24.9)][(int)ceil((x - 20) / 25)] == 1) //اگر فریم قدرتی در موقعیت پک من وجود دارد آنرا می خوریم
@@ -534,6 +541,7 @@ int main()
                 cyanGhost.ShoroeTars();
                 pinkGhost.ShoroeTars();
                 orangeGhost.ShoroeTars();
+                ghostsScareTime = 0;
                 ghostsScareTime += deltatime.asSeconds(); //محاسبه زمان ترس ارواح
             }
             if (isGhostsScare && ghostsScareTime != 0)
@@ -545,26 +553,41 @@ int main()
                     {
                         //مجموع چشمک زدن ها به 5 مرتبه میرسد چون هر چشمک 0.1 ثانله طول می کشد
                         timeToChangeColorOfScaredGhost += deltatime.asSeconds(); //زمان تغییر بین رنگ آبی و سفید را جمع می کنیم
-                        if (redGhost.getStatus() == 3)                           //اگر روح آبی رنگ است
+
+                        if ((timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0)) // 0.1ثانیه منتظر میمانیم
                         {
-                            if (!(timeToChangeColorOfScaredGhost <= 0.1 && timeToChangeColorOfScaredGhost >= 0)) // 0.1ثانیه منتظر میمانیم
-                            {
+                            if (redGhost.getStatus() == 3)
                                 redGhost.setStatus(4); //ارواح به وضعیت سفید می روند
+                            if (cyanGhost.getStatus() == 3)
                                 cyanGhost.setStatus(4);
+                            if (pinkGhost.getStatus() == 3)
                                 pinkGhost.setStatus(4);
+                            if (orangeGhost.getStatus() == 3)
                                 orangeGhost.setStatus(4);
-                            }
                         }
-                        else if (redGhost.getStatus() == 4) //اگر ارواح آبی هستند 0.1 ثانیه فرصت می دهیم و ارواح آبی می شوند
+
+                        else if ((timeToChangeColorOfScaredGhost <= 0.2 && timeToChangeColorOfScaredGhost >= 0.1))
                         {
-                            if (!(timeToChangeColorOfScaredGhost <= 0.2 && timeToChangeColorOfScaredGhost >= 0.1))
+                            if (redGhost.getStatus() == 4) //اگر ارواح آبی هستند 0.1 ثانیه فرصت می دهیم و ارواح آبی می شوند
                             {
                                 redGhost.setStatus(3); //ارواح آبی رنگ می شوند
-                                cyanGhost.setStatus(3);
-                                pinkGhost.setStatus(3);
-                                orangeGhost.setStatus(3);
-                                timeToChangeColorOfScaredGhost = 0; //زمان سنج ریست می شود تا مجدد چشمک زدن آغاز شود
                             }
+                            if (cyanGhost.getStatus() == 4) //اگر ارواح آبی هستند 0.1 ثانیه فرصت می دهیم و ارواح آبی می شوند
+                            {
+                                cyanGhost.setStatus(3); //ارواح آبی رنگ می شوند
+                            }
+                            if (pinkGhost.getStatus() == 4) //اگر ارواح آبی هستند 0.1 ثانیه فرصت می دهیم و ارواح آبی می شوند
+                            {
+                                pinkGhost.setStatus(3); //ارواح آبی رنگ می شوند
+                            }
+                            if (orangeGhost.getStatus() == 4) //اگر ارواح آبی هستند 0.1 ثانیه فرصت می دهیم و ارواح آبی می شوند
+                            {
+                                orangeGhost.setStatus(3); //ارواح آبی رنگ می شوند
+                            }
+                        }
+                        else if (timeToChangeColorOfScaredGhost >= 0.2)
+                        {
+                            timeToChangeColorOfScaredGhost = 0; //زمان سنج ریست می شود تا مجدد چشمک زدن آغاز شود
                         }
                     }
                 }
@@ -617,38 +640,59 @@ int main()
 
                 showFood = false;
             }
+            if (playerLoss)
+            {
+                ////////////////////////////////////////////////////////////////
+            }
+
             //بررسی برخورد ارواح با پک من
             if (!playerLoss && PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()) || PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) || PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) || PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
             {
-                if (isGhostsScare) //اگر پک به ارواح خورده است و آن ها در حالت ترس بوده اند باید روح به خانه برگردد و پک من امتیاز بگیرد
+
+                bool pacmanColision = false;
+                if (PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()) && (redGhost.getStatus() == 3 || redGhost.getStatus() == 4)) //اگر روح قرمز را خورده ایم
                 {
+                    redGhost.setStatus(1);
                     emtiaz += 200;
-                    if (PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds())) //اگر روح قرمز را خورده ایم
-                    {
-                        redGhost.setStatus(1);
-                        redGhost.setPosition(245, 375);
-                        // redGhost.boroBe(map);
-                    }
-                    else if (PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()))
-                    {
-                        cyanGhost.setStatus(1);
-                        cyanGhost.setPosition(200, 435);
-                        // cyanGhost.boroBe(map);
-                    }
-                    else if (PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()))
-                    {
-                        pinkGhost.setStatus(1);
-                        pinkGhost.setPosition(235, 435);
-                        // pinkGhost.boroBe(map);
-                    }
-                    else if (PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()))
-                    {
-                        orangeGhost.setStatus(1);
-                        orangeGhost.setPosition(228, 435);
-                        // orangeGhost.boroBe(map);
-                    }
+                    redGhost.setPosition(245, 375);
+                    // redGhost.boroBe(map);
                 }
-                else
+
+                else if (PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) && (cyanGhost.getStatus() == 3 || cyanGhost.getStatus() == 4))
+                {
+                    cyanGhost.setStatus(1);
+                    emtiaz += 200;
+                    cyanGhost.setPosition(200, 435);
+                }
+                else if (PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) && (pinkGhost.getStatus() == 3 || pinkGhost.getStatus() == 4))
+                {
+                    pinkGhost.setStatus(1);
+                    emtiaz += 200;
+                    pinkGhost.setPosition(235, 435);
+                }
+                else if (PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()) && (orangeGhost.getStatus() == 3 || orangeGhost.getStatus() == 4))
+                {
+                    orangeGhost.setStatus(1);
+                    emtiaz += 200;
+                    orangeGhost.setPosition(228, 435);
+                }
+                if (PacMan.getGlobalBounds().intersects(redGhost.getGlobalBounds()) && (redGhost.getStatus() == 1 || redGhost.getStatus() == 2)) //اگر روح قرمز را خورده ایم
+                {
+                    pacmanColision = true;
+                }
+                else if (PacMan.getGlobalBounds().intersects(cyanGhost.getGlobalBounds()) && (cyanGhost.getStatus() == 1 || redGhost.getStatus() == 2)) //اگر روح قرمز را خورده ایم
+                {
+                    pacmanColision = true;
+                }
+                else if (PacMan.getGlobalBounds().intersects(pinkGhost.getGlobalBounds()) && (pinkGhost.getStatus() == 1 || redGhost.getStatus() == 2)) //اگر روح قرمز را خورده ایم
+                {
+                    pacmanColision = true;
+                }
+                else if (PacMan.getGlobalBounds().intersects(orangeGhost.getGlobalBounds()) && (orangeGhost.getStatus() == 1 || redGhost.getStatus() == 2)) //اگر روح قرمز را خورده ایم
+                {
+                    pacmanColision = true;
+                }
+                if (pacmanColision)
                 {
                     if (CountOfLifes == 0) //اگر گیم آور شدیم
                     {
@@ -665,14 +709,19 @@ int main()
                     PacMan.setPosition(Vector2f(x, y));
                     // رفتن ارواح به حالت اولیه
                     redGhost.setPosition(245, 375);
+                    redGhost.setStatus(1);
                     redGhost.taeineJahat(map, 1, x, y);
                     cyanGhost.setPosition(200, 435);
+                    cyanGhost.setStatus(1);
                     cyanGhost.taeineJahat(map, 1, x, y);
-
                     orangeGhost.setPosition(228, 435);
+                    orangeGhost.setStatus(1);
                     orangeGhost.taeineJahat(map, 1, x, y);
                     pinkGhost.setPosition(235, 435);
+                    pinkGhost.setStatus(1);
                     pinkGhost.taeineJahat(map, 1, x, y);
+                    ghostsScareTime = 0;
+                    isGhostsScare = false;
                 }
             }
             //اگر پک من به تونل جادویی رسیده باید به طرف دیگر برود
@@ -688,23 +737,42 @@ int main()
             {
 
                 ghostStep = (ghostStep + 1) % 2; //برای مشخص کردن حرکت پای ارواح
-
-                ghostsMoveTimer += deltatime.asSeconds();
-                if (ghostsMoveTimer >= traceTimer[traceTimerPicker]) //با استفاده از زمان درون آرایه تایمرها مدت زمان تعقیب-سرگردان-تعقیب.....رعایت می شود
+                if (!isGhostsScare)
                 {
-                    int tempStatus = (((traceTimerPicker) % 2) + 1);//برای تعیین وضعیت ارواح بین1و2
-                    traceTimerPicker = traceTimerPicker % 9 + 1;//انتخاب کننده زمان تعقیب یا پیگیری
-                    ghostsMoveTimer = 0;//زمان سنج 
-                    redGhost.setStatus(tempStatus);
-                    cyanGhost.setStatus(tempStatus);
-                    orangeGhost.setStatus(tempStatus);
-                    pinkGhost.setStatus(tempStatus);
+                    ghostsMoveTimer += deltatime.asSeconds();
+                    if (ghostsMoveTimer >= traceTimer[traceTimerPicker]) //با استفاده از زمان درون آرایه تایمرها مدت زمان تعقیب-سرگردان-تعقیب.....رعایت می شود
+                    {
+                        int tempStatus = (((traceTimerPicker) % 2) + 1); //برای تعیین وضعیت ارواح بین1و2
+                        traceTimerPicker = traceTimerPicker % 9 + 1;     //انتخاب کننده زمان تعقیب یا پیگیری
+                        ghostsMoveTimer = 0;                             //زمان سنج
+                        if (redGhost.getStatus() != 5)
+                            redGhost.setStatus(tempStatus);
+                        if (cyanGhost.getStatus() != 5)
+                            cyanGhost.setStatus(tempStatus);
+                        if (orangeGhost.getStatus() != 5)
+                            orangeGhost.setStatus(tempStatus);
+                        if (pinkGhost.getStatus() != 5)
+                            pinkGhost.setStatus(tempStatus);
+                    }
                 }
+                if (redGhost.getStatus() == 5)
+                    redGhost.taeineJahat(map, ghostStep, 245, 424);
+                else
+                    redGhost.taeineJahat(map, ghostStep, x, y);
 
-                redGhost.taeineJahat(map, ghostStep, x, y);
-                cyanGhost.taeineJahat(map, ghostStep, x, y);
-                orangeGhost.taeineJahat(map, ghostStep, x, y);
-                pinkGhost.taeineJahat(map, ghostStep, x, y);
+                if (cyanGhost.getStatus() == 5)
+                    cyanGhost.taeineJahat(map, ghostStep, 245, 424);
+
+                else
+                    cyanGhost.taeineJahat(map, ghostStep, x, y);
+                if (orangeGhost.getStatus() == 5)
+                    orangeGhost.taeineJahat(map, ghostStep, 245, 424);
+                else
+                    orangeGhost.taeineJahat(map, ghostStep, x, y);
+                if (pinkGhost.getStatus() == 5)
+                    pinkGhost.taeineJahat(map, ghostStep, 245, 424);
+                else
+                    pinkGhost.taeineJahat(map, ghostStep, x, y);
                 PacMan.setPosition(Vector2f(x, y));
             }
             else if (lossTime <= 2.0 && playerLoss) //شمارش 2 ثانیه پس از باخت
@@ -727,7 +795,7 @@ int main()
                 MainWindow.draw(lifes1);
             }
 
-            else
+            else if (CountOfLifes == 2 || CountOfLifes == 3)
             {
                 MainWindow.draw(lifes1);
 
@@ -738,10 +806,13 @@ int main()
             MainWindow.draw(matneEmtiaz);
             MainWindow.draw(banner);
             MainWindow.draw(PacMan);
-            MainWindow.draw(redGhost);
-            MainWindow.draw(cyanGhost);
-            MainWindow.draw(orangeGhost);
-            MainWindow.draw(pinkGhost);
+            if (!playerLoss)
+            {
+                MainWindow.draw(redGhost);
+                MainWindow.draw(cyanGhost);
+                MainWindow.draw(orangeGhost);
+                MainWindow.draw(pinkGhost);
+            }
             MainWindow.draw(highScore);
             MainWindow.draw(resetMenu);               //نمایش گزینه ریست
             MainWindow.draw(ClearHighScoreMenu);      //نمایش گزینه پاک کردن بالاترین امتیاز
