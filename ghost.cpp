@@ -51,19 +51,17 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     int tas = 0;
     int count = masirhayeMojaver(map); //یافتن مسیرهای باز برای روح عدد 1 یعنی مسیر بالا باز است-2 یعنی  سمت چپ باز است 4 پایین و 8 راست
 
-    cout << "X" << x << "  Y" << y <<"    "<<"   COUNT  "<<count<<"   jahateHarekat  "<<jahateHarekat<< endl;
+    cout << "X" << x << "  Y" << y << "  Status  " << status << "   COUNT  " << count << "   jahateHarekat  " << jahateHarekat << endl;
     if (count == 1 || count == 2 || count == 4 || count == 8) //اگر فقط یک راه داریم!!!
     {
-       if (count==2)
-       {
-        return 1;
-       }
-       else if (count==8)
-       {
-        return 3;
-       }
-       
-       
+        if (count == 2)
+        {
+            return 1;
+        }
+        else if (count == 8)
+        {
+            return 3;
+        }
     }
     else if (count == 3) //اگر مسیر بالا و چپ باز باشد و به راست میرویم باید مسیر بالا انتخاب شود چون نمیتوان برگشت. درغیراینصورت به سمت چپ می رویم
     {
@@ -125,9 +123,13 @@ int Ghost::Taaghib(int map[22][19], float pacmanX, float pacmanY)
     {
         Vector2f dist = masafat(pacmanX, pacmanY);
         if (abs(dist.x) < 0.5 && dist.y > 0)
-           { return 4;}
+        {
+            return 4;
+        }
         else if (abs(dist.x) < 0.5 && dist.y < 0)
-           { return 2;}
+        {
+            return 2;
+        }
         else if (dist.x > 0 && abs(dist.y) < 0.5)
         {
             return 3;
@@ -636,7 +638,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else if (status == 2)
+        else
         {
             jahateHarekat = masireShansi(map);
         }
@@ -652,7 +654,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else if (status == 2)
+        else
         {
             jahateHarekat = masireShansi(map);
         }
@@ -667,7 +669,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else if (status == 2)
+        else
         {
             jahateHarekat = masireShansi(map);
         }
@@ -682,7 +684,7 @@ void Ghost::taeineJahat(int map[22][19], int gameHarekat, float pacmanX, float p
         {
             jahateHarekat = Taaghib(map, pacmanX, pacmanY);
         }
-        else if (status == 2)
+        else
         {
             jahateHarekat = masireShansi(map);
         }
